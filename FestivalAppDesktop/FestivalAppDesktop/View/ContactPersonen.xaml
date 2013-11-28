@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="FestivalAppDesktop.View.ContactPersonen"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d">
+    <Grid Background="#FFE5E5E5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="4*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Margin="16,16,16,0" TextWrapping="Wrap" VerticalAlignment="Bottom"><Run Language="nl-be" Text="Kies type:"/></TextBlock>
+        <ComboBox Margin="16,4" Grid.Row="1"/>
+        <TextBlock TextWrapping="Wrap" Text="TextBlock" Margin="16,16,16,0" Grid.Row="2" VerticalAlignment="Bottom"/>
+        <ListView Margin="16,4,16,16" Grid.Row="3" Grid.RowSpan="10" SelectedItem="{Binding SelectedContactPerson}" ItemsSource="{Binding ContactPersonen}" DisplayMemberPath="FirstName">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="FirstName" DisplayMemberBinding="{Binding Path=FirstName}"/>
+                    <GridViewColumn Header="LastName" DisplayMemberBinding="{Binding Path=LastName}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button Content="{Binding VoegToeButtonContent}" Grid.Column="1" Margin="4" Grid.Row="3" Command="{Binding AddNewContactPersonCommand}"/>
+        <Button Content="Wijzig" Grid.Column="1" Margin="4" Grid.Row="4" IsEnabled="{Binding EnableDisableControls}"/>
+        <Button Content="Verwijder" Grid.Column="1" Margin="4" Grid.Row="5" IsEnabled="{Binding EnableDisableControls}"/>
+        <TextBlock Grid.Column="2" Margin="100,8,8,8" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Center" Text="Naam:"/>
+        <TextBlock Grid.Column="2" Margin="100,8,8,8" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Center" Text="Voornaam:"/>
+        <TextBlock Grid.Column="2" Margin="100,8,8,8" Grid.Row="5" TextWrapping="Wrap" Text="Type:" VerticalAlignment="Center" Height="19.348"/>
+        <TextBlock Grid.Column="2" Margin="100,8,8,8" Grid.Row="6" TextWrapping="Wrap" VerticalAlignment="Center" Text="Adres:"/>
+        <TextBlock Grid.Column="2" Margin="100,8,8,8" Grid.Row="7" TextWrapping="Wrap" VerticalAlignment="Center" Text="Stad:"/>
+        <TextBlock Grid.Column="2" Margin="100,8,8,8" Grid.Row="8" TextWrapping="Wrap" VerticalAlignment="Center" Text="Company:"/>
+        <TextBlock Grid.Column="2" Margin="100,8,8,8" Grid.Row="9" TextWrapping="Wrap" VerticalAlignment="Center" Text="Telefoonnummer:"/>
+        <TextBlock Grid.Column="2" Margin="100,8,8,8" Grid.Row="10" TextWrapping="Wrap" Text="Gsmnummer:" VerticalAlignment="Center"/>
+        <TextBlock Grid.Column="2" Margin="100,8,8,8" Grid.Row="11" TextWrapping="Wrap" Text="E-mailadres:" VerticalAlignment="Center"/>
+        <TextBox Grid.ColumnSpan="2" Grid.Column="3" Margin="8" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding SelectedContactPerson.FirstName}" IsReadOnly="{Binding ReadOnlyProperty}"/>
+        <TextBox Grid.ColumnSpan="2" Grid.Column="3" Margin="8" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding SelectedContactPerson.LastName}" IsReadOnly="{Binding ReadOnlyProperty}"/>
+        <TextBox Grid.ColumnSpan="2" Grid.Column="3" Margin="8" Grid.Row="5" TextWrapping="Wrap" VerticalAlignment="Center" IsReadOnly="{Binding ReadOnlyProperty}"/>
+        <TextBox Grid.ColumnSpan="2" Grid.Column="3" Margin="8" Grid.Row="6" TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding SelectedContactPerson.Address}" IsReadOnly="{Binding ReadOnlyProperty}"/>
+        <TextBox Grid.ColumnSpan="2" Grid.Column="3" Margin="8" Grid.Row="7" TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding SelectedContactPerson.City}" IsReadOnly="{Binding ReadOnlyProperty}"/>
+        <TextBox Grid.ColumnSpan="2" Grid.Column="3" Margin="8" Grid.Row="8" TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding SelectedContactPerson.Company}" IsReadOnly="{Binding ReadOnlyProperty}"/>
+        <TextBox Grid.ColumnSpan="2" Grid.Column="3" Margin="8" Grid.Row="9" TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding SelectedContactPerson.Phone}" IsReadOnly="{Binding ReadOnlyProperty}"/>
+        <TextBox Grid.ColumnSpan="2" Grid.Column="3" Margin="8" Grid.Row="10" TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding SelectedContactPerson.CellPhone}" IsReadOnly="{Binding ReadOnlyProperty}"/>
+        <TextBox Grid.ColumnSpan="2" Grid.Column="3" Margin="8" Grid.Row="11" TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding SelectedContactPerson.Email}" IsReadOnly="{Binding ReadOnlyProperty}"/>
+    </Grid>
+</UserControl>

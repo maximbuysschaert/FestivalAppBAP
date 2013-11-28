@@ -1,0 +1,57 @@
+﻿<UserControl x:Class="FestivalAppDesktop.View.Ticketing"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid Background="#FFE5E5E5" HorizontalAlignment="Right" Width="1036">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="4*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Margin="16,16,16,0" TextWrapping="Wrap" VerticalAlignment="Bottom"><Run Language="nl-be" Text="Tickets:"/></TextBlock>
+        <ListView Margin="16,4,16,16" Grid.Row="1" Grid.RowSpan="12">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button Content="Voeg toe" Grid.Column="1" Margin="16,4" Grid.Row="1"/>
+        <Button Content="Wijzig" Grid.Column="1" Margin="16,4" Grid.Row="2"/>
+        <Button Content="Verwijder" Grid.Column="1" Margin="16,4" Grid.Row="3"/>
+        <TextBlock Grid.Column="2" Margin="100,4,0,4" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Center"><Run Language="nl-be" Text="Naam:"/></TextBlock>
+        <TextBlock Grid.Column="2" Margin="100,4,0,4" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Center"><Run Language="nl-be" Text="Prijs:"/></TextBlock>
+        <TextBlock Grid.Column="2" Margin="100,4,0,4" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Center"><Run Language="nl-be" Text="Aantal:"/></TextBlock>
+        <TextBlock Grid.Column="2" Margin="100,4,0,4" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Center"><Run Language="nl-be" Text="Startdatum:"/></TextBlock>
+        <TextBlock Grid.Column="2" Margin="100,4,0,4" Grid.Row="5" TextWrapping="Wrap" VerticalAlignment="Center"><Run Language="nl-be" Text="Einddatum:"/></TextBlock>
+        <TextBlock Grid.Column="2" Margin="100,4,0,4" Grid.Row="6" TextWrapping="Wrap" VerticalAlignment="Center"><Run Language="nl-be" Text="Beschrijving:"/></TextBlock>
+        <TextBlock Grid.Column="2" Margin="100,4,0,4" Grid.Row="8" TextWrapping="Wrap" VerticalAlignment="Center"><Run Language="nl-be" Text="Aantal beschikbaar:"/></TextBlock>
+        <TextBlock Grid.Column="3" Margin="16,4" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Center"/>
+        <TextBlock Grid.Column="3" Margin="16,4" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Center"/>
+        <TextBlock Grid.Column="3" Margin="16,4" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Center"/>
+        <TextBlock Grid.Column="3" Margin="16,4" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Center"/>
+        <TextBlock Grid.Column="3" Margin="16,4" Grid.Row="5" TextWrapping="Wrap" VerticalAlignment="Center"/>
+        <TextBlock Grid.Column="3" Margin="16,12,16,4" Grid.Row="6" Grid.RowSpan="2" TextWrapping="Wrap"/>
+        <TextBlock Grid.Column="3" Margin="16,4" Grid.Row="8" TextWrapping="Wrap" VerticalAlignment="Center"/>
+        <Button Grid.ColumnSpan="2" Content="Reserveer" Grid.Column="2" Margin="50" Grid.Row="12"/>
+    </Grid>
+</UserControl>
