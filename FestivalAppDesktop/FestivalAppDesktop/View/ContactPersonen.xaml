@@ -49,8 +49,8 @@
         <TextBlock Grid.Column="2" Margin="100,8,8,8" Grid.Row="9" TextWrapping="Wrap" VerticalAlignment="Center" Text="Telefoonnummer:"/>
         <TextBlock Grid.Column="2" Margin="100,8,8,8" Grid.Row="10" TextWrapping="Wrap" Text="Gsmnummer:" VerticalAlignment="Center"/>
         <TextBlock Grid.Column="2" Margin="100,8,8,8" Grid.Row="11" TextWrapping="Wrap" Text="E-mailadres:" VerticalAlignment="Center"/>
-        <TextBox Grid.ColumnSpan="2" Grid.Column="3" Margin="8" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding SelectedContactPerson.FirstName}" IsReadOnly="{Binding ReadOnlyProperty}"/>
-        <TextBox Grid.ColumnSpan="2" Grid.Column="3" Margin="8" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding SelectedContactPerson.LastName}" IsReadOnly="{Binding ReadOnlyProperty}"/>
+        <TextBox Grid.ColumnSpan="2" Grid.Column="3" Margin="8" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding SelectedContactPerson.FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding ReadOnlyProperty}"/>
+        <TextBox Grid.ColumnSpan="2" Grid.Column="3" Margin="8" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding SelectedContactPerson.LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding ReadOnlyProperty}"/>
         <TextBox Grid.ColumnSpan="2" Grid.Column="3" Margin="8" Grid.Row="5" TextWrapping="Wrap" VerticalAlignment="Center" IsReadOnly="{Binding ReadOnlyProperty}"/>
         <TextBox Grid.ColumnSpan="2" Grid.Column="3" Margin="8" Grid.Row="6" TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding SelectedContactPerson.Address}" IsReadOnly="{Binding ReadOnlyProperty}"/>
         <TextBox Grid.ColumnSpan="2" Grid.Column="3" Margin="8" Grid.Row="7" TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding SelectedContactPerson.City}" IsReadOnly="{Binding ReadOnlyProperty}"/>

@@ -1,9 +1,11 @@
 ﻿using FestivalAppDesktop.Model;
 using GalaSoft.MvvmLight.Command;
+using Oefening1.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Common;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,7 +32,6 @@ namespace FestivalAppDesktop.ViewModel
         }
 
         private ContactPerson _selectedContactPerson;
-
         public ContactPerson SelectedContactPerson
         {
             get { return _selectedContactPerson; }
@@ -38,13 +39,10 @@ namespace FestivalAppDesktop.ViewModel
             { 
                 _selectedContactPerson = value;
                 OnPropertyChanged("SelectedContactPerson");
-                if(SelectedContactPerson != null)
-                    Console.WriteLine(SelectedContactPerson.FirstName);
             }
         }
 
         private Boolean _readOnlyProperty;
-
         public Boolean ReadOnlyProperty
         {
             get { return _readOnlyProperty; }
@@ -56,7 +54,6 @@ namespace FestivalAppDesktop.ViewModel
         }
 
         private string _voegToeButtonContent;
-
         public string VoegToeButtonContent
         {
             get { return _voegToeButtonContent; }
@@ -68,7 +65,6 @@ namespace FestivalAppDesktop.ViewModel
         }
 
         private Boolean _enableDisableControls;
-
         public Boolean EnableDisableControls
         {
             get { return _enableDisableControls; }
@@ -78,6 +74,7 @@ namespace FestivalAppDesktop.ViewModel
                 OnPropertyChanged("EnableDisableControls");
             }
         }
+        
         
         
         #endregion
@@ -105,7 +102,7 @@ namespace FestivalAppDesktop.ViewModel
             ////deze zijn immers aan deze property gebind
             //SelectedAttraction = Nieuw;
 
-            SelectedContactPerson = null;
+            //SelectedContactPerson = null;
             ReadOnlyProperty = false;
             VoegToeButtonContent = "Opslaan";
             EnableDisableControls = false;
@@ -115,10 +112,13 @@ namespace FestivalAppDesktop.ViewModel
 
         private void InsertDatabase()
         {
-            //DbParameter[] parameters = new DbParameter[9];
-            //parameters[0] = SelectedContactPerson.FirstName;
+            Console.WriteLine(SelectedContactPerson.FirstName);
+            DbParameter[] parameters = new DbParameter[2];
+            parameters[0] = new SqlParameter("param1", SelectedContactPerson.FirstName);
+            parameters[1] = new SqlParameter("param2", SelectedContactPerson.LastName);
 
-            //string SQL = "INSERT INTO ContactPerson VALUES ";
+            string SQL = "INSERT INTO ContactPerson (Firstname) VALUES (@param2);";
+            Database.ModifyData(SQL, parameters);
         }
     }
 }
