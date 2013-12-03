@@ -18,9 +18,10 @@ namespace FestivalAppDesktop.ViewModel
         public ContactPersonenVM()
         {
             _ContactPersonen = ContactPerson.GetContactPersons();
-            //ReadOnlyProperty = true;
-            //VoegToeButtonContent = "Voeg toe";
-            //EnableDisableControls = true;
+            ReadOnlyProperty = true;
+            EnableDisableControls = true;
+            EnableDisableListView = true;
+            EnableDisableSaveCancel = false;
         }
 
         #region "Properties"
@@ -57,17 +58,6 @@ namespace FestivalAppDesktop.ViewModel
             }
         }
 
-        private string _voegToeButtonContent;
-        public string VoegToeButtonContent
-        {
-            get { return _voegToeButtonContent; }
-            set 
-            { 
-                _voegToeButtonContent = value;
-                OnPropertyChanged("VoegToeButtonContent");
-            }
-        }
-
         private Boolean _enableDisableControls;
         public Boolean EnableDisableControls
         {
@@ -77,7 +67,31 @@ namespace FestivalAppDesktop.ViewModel
                 _enableDisableControls = value;
                 OnPropertyChanged("EnableDisableControls");
             }
-        }        
+        }
+
+        private Boolean _enableDisableListView;
+        public Boolean EnableDisableListView
+        {
+            get { return _enableDisableListView; }
+            set 
+            { 
+                _enableDisableListView = value;
+                OnPropertyChanged("EnableDisableListView");
+            }
+        }
+
+        private Boolean _enableDisableSaveCancel;
+        public Boolean EnableDisableSaveCancel
+        {
+            get { return _enableDisableSaveCancel; }
+            set 
+            { 
+                _enableDisableSaveCancel = value;
+                OnPropertyChanged("EnableDisableSaveCancel");
+            }
+        }
+        
+        
         #endregion
 
         public string Name
@@ -93,8 +107,6 @@ namespace FestivalAppDesktop.ViewModel
             }
         }
 
-
-
         public ICommand SaveNewContactPersonCommand
         {
             get
@@ -102,24 +114,40 @@ namespace FestivalAppDesktop.ViewModel
                 return new RelayCommand(InsertDatabase);
             }
         }
-
         private void AddNewContactPerson()
         {
             ContactPerson nieuw = new ContactPerson();
             SelectedContactPerson = nieuw;
+
+            ReadOnlyProperty = false;
+            EnableDisableControls = false;
+            EnableDisableListView = false;
+            EnableDisableSaveCancel = true;
         }
 
         private void InsertDatabase()
         {         
             //Console.WriteLine(SelectedContactPerson.FirstName);
-            DbParameter[] parameters = new DbParameter[2];
+            DbParameter[] parameters = new DbParameter[8];
             parameters[0] = new SqlParameter("param1", SelectedContactPerson.FirstName);
             parameters[1] = new SqlParameter("param2", SelectedContactPerson.LastName);
+            parameters[2] = new SqlParameter("param3", SelectedContactPerson.Company);
+            parameters[3] = new SqlParameter("param4", SelectedContactPerson.Address);
+            parameters[4] = new SqlParameter("param5", SelectedContactPerson.City);
+            parameters[5] = new SqlParameter("param6", SelectedContactPerson.Email);
+            parameters[6] = new SqlParameter("param7", SelectedContactPerson.Phone);
+            parameters[7] = new SqlParameter("param8", SelectedContactPerson.CellPhone);
 
-            string SQL = "INSERT INTO ContactPerson (Firstname) VALUES (@param2);";
+            string SQL = "INSERT INTO ContactPerson (FirstName, LastName, Company, Address, City, Email, Phone, Cellphone) VALUES (@param1, @param2, @param3, @param4, @param5, @param6, @param7, @param8);";
             Database.ModifyData(SQL, parameters);
 
             ContactPersonen = ContactPerson.GetContactPersons();
+            EnableDisableSaveCancel = false;
+            EnableDisableListView = true;
+            EnableDisableControls = true;
+
+            ContactPerson nieuw = new ContactPerson();
+            SelectedContactPerson = nieuw;
         }
     }
 }

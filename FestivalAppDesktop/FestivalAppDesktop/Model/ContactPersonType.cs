@@ -9,7 +9,6 @@ namespace FestivalAppDesktop.Model
     class ContactPersonType
     {
         private string ID;
-
         public string id
         {
             get { return ID; }
@@ -17,7 +16,6 @@ namespace FestivalAppDesktop.Model
         }
 
         private string Name;
-
         public string name
         {
             get { return Name; }
