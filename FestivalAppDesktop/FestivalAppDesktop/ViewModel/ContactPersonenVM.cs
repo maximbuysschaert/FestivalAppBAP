@@ -18,9 +18,9 @@ namespace FestivalAppDesktop.ViewModel
         public ContactPersonenVM()
         {
             _ContactPersonen = ContactPerson.GetContactPersons();
-            ReadOnlyProperty = true;
-            VoegToeButtonContent = "Voeg toe";
-            EnableDisableControls = true;
+            //ReadOnlyProperty = true;
+            //VoegToeButtonContent = "Voeg toe";
+            //EnableDisableControls = true;
         }
 
         #region "Properties"
@@ -28,7 +28,11 @@ namespace FestivalAppDesktop.ViewModel
         public ObservableCollection<ContactPerson> ContactPersonen
         {
             get { return _ContactPersonen; }
-            set { _ContactPersonen = value; }
+            set 
+            { 
+                _ContactPersonen = value;
+                OnPropertyChanged("ContactPersonen");
+            }
         }
 
         private ContactPerson _selectedContactPerson;
@@ -73,13 +77,8 @@ namespace FestivalAppDesktop.ViewModel
                 _enableDisableControls = value;
                 OnPropertyChanged("EnableDisableControls");
             }
-        }
-        
-        
-        
+        }        
         #endregion
-
-
 
         public string Name
         {
@@ -94,31 +93,33 @@ namespace FestivalAppDesktop.ViewModel
             }
         }
 
+
+
+        public ICommand SaveNewContactPersonCommand
+        {
+            get
+            {
+                return new RelayCommand(InsertDatabase);
+            }
+        }
+
         private void AddNewContactPerson()
         {
-            //Attraction Nieuw = new Attraction();
-
-            ////met onderstaande lijn worden alle tekstvelden gewist
-            ////deze zijn immers aan deze property gebind
-            //SelectedAttraction = Nieuw;
-
-            //SelectedContactPerson = null;
-            ReadOnlyProperty = false;
-            VoegToeButtonContent = "Opslaan";
-            EnableDisableControls = false;
-
-            InsertDatabase();
+            ContactPerson nieuw = new ContactPerson();
+            SelectedContactPerson = nieuw;
         }
 
         private void InsertDatabase()
-        {
-            Console.WriteLine(SelectedContactPerson.FirstName);
+        {         
+            //Console.WriteLine(SelectedContactPerson.FirstName);
             DbParameter[] parameters = new DbParameter[2];
             parameters[0] = new SqlParameter("param1", SelectedContactPerson.FirstName);
             parameters[1] = new SqlParameter("param2", SelectedContactPerson.LastName);
 
             string SQL = "INSERT INTO ContactPerson (Firstname) VALUES (@param2);";
             Database.ModifyData(SQL, parameters);
+
+            ContactPersonen = ContactPerson.GetContactPersons();
         }
     }
 }

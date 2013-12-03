@@ -29,7 +29,7 @@
         <TextBlock Margin="16,16,16,0" TextWrapping="Wrap" VerticalAlignment="Bottom"><Run Language="nl-be" Text="Kies type:"/></TextBlock>
         <ComboBox Margin="16,4" Grid.Row="1"/>
         <TextBlock TextWrapping="Wrap" Text="TextBlock" Margin="16,16,16,0" Grid.Row="2" VerticalAlignment="Bottom"/>
-        <ListView Margin="16,4,16,16" Grid.Row="3" Grid.RowSpan="10" SelectedItem="{Binding SelectedContactPerson}" ItemsSource="{Binding ContactPersonen}" DisplayMemberPath="FirstName">
+        <ListView Margin="16,4,16,16" Grid.Row="3" Grid.RowSpan="10" SelectedItem="{Binding SelectedContactPerson}" ItemsSource="{Binding ContactPersonen, UpdateSourceTrigger=PropertyChanged}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="FirstName" DisplayMemberBinding="{Binding Path=FirstName}"/>
@@ -38,8 +38,8 @@
             </ListView.View>
         </ListView>
         <Button Content="{Binding VoegToeButtonContent}" Grid.Column="1" Margin="4" Grid.Row="3" Command="{Binding AddNewContactPersonCommand}"/>
-        <Button Content="Wijzig" Grid.Column="1" Margin="4" Grid.Row="4" IsEnabled="{Binding EnableDisableControls}"/>
-        <Button Content="Verwijder" Grid.Column="1" Margin="4" Grid.Row="5" IsEnabled="{Binding EnableDisableControls}"/>
+        <Button Content="Wijzig" Grid.Column="1" Margin="4" Grid.Row="4" Command="{Binding SaveNewContactPersonCommand}"/>
+        <Button Content="Verwijder" Grid.Column="1" Margin="4" Grid.Row="5" />
         <TextBlock Grid.Column="2" Margin="100,8,8,8" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Center" Text="Naam:"/>
         <TextBlock Grid.Column="2" Margin="100,8,8,8" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Center" Text="Voornaam:"/>
         <TextBlock Grid.Column="2" Margin="100,8,8,8" Grid.Row="5" TextWrapping="Wrap" Text="Type:" VerticalAlignment="Center" Height="19.348"/>
@@ -49,8 +49,8 @@
         <TextBlock Grid.Column="2" Margin="100,8,8,8" Grid.Row="9" TextWrapping="Wrap" VerticalAlignment="Center" Text="Telefoonnummer:"/>
         <TextBlock Grid.Column="2" Margin="100,8,8,8" Grid.Row="10" TextWrapping="Wrap" Text="Gsmnummer:" VerticalAlignment="Center"/>
         <TextBlock Grid.Column="2" Margin="100,8,8,8" Grid.Row="11" TextWrapping="Wrap" Text="E-mailadres:" VerticalAlignment="Center"/>
-        <TextBox Grid.ColumnSpan="2" Grid.Column="3" Margin="8" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding SelectedContactPerson.FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding ReadOnlyProperty}"/>
-        <TextBox Grid.ColumnSpan="2" Grid.Column="3" Margin="8" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding SelectedContactPerson.LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding ReadOnlyProperty}"/>
+        <TextBox Grid.ColumnSpan="2" Grid.Column="3" Margin="8" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding SelectedContactPerson.LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding ReadOnlyProperty}"/>
+        <TextBox Grid.ColumnSpan="2" Grid.Column="3" Margin="8" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding SelectedContactPerson.FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding ReadOnlyProperty}"/>
         <TextBox Grid.ColumnSpan="2" Grid.Column="3" Margin="8" Grid.Row="5" TextWrapping="Wrap" VerticalAlignment="Center" IsReadOnly="{Binding ReadOnlyProperty}"/>
         <TextBox Grid.ColumnSpan="2" Grid.Column="3" Margin="8" Grid.Row="6" TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding SelectedContactPerson.Address}" IsReadOnly="{Binding ReadOnlyProperty}"/>
         <TextBox Grid.ColumnSpan="2" Grid.Column="3" Margin="8" Grid.Row="7" TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding SelectedContactPerson.City}" IsReadOnly="{Binding ReadOnlyProperty}"/>
