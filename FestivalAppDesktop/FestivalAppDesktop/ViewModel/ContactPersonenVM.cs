@@ -18,6 +18,7 @@ namespace FestivalAppDesktop.ViewModel
         public ContactPersonenVM()
         {
             _ContactPersonen = ContactPerson.GetContactPersons();
+            _contactPersonTypes = ContactPersonType.GetContactPersonTypes();
             ReadOnlyProperty = true;
             EnableDisableControls = true;
             EnableDisableListView = true;
@@ -35,6 +36,18 @@ namespace FestivalAppDesktop.ViewModel
                 OnPropertyChanged("ContactPersonen");
             }
         }
+
+        private ObservableCollection<ContactPersonType> _contactPersonTypes;
+        public ObservableCollection<ContactPersonType> ContactPersonTypes
+        {
+            get { return _contactPersonTypes; }
+            set 
+            { 
+                _contactPersonTypes = value; 
+                OnPropertyChanged("ContactPersonTypes");
+            }
+        }
+        
 
         private ContactPerson _selectedContactPerson;
         public ContactPerson SelectedContactPerson
@@ -89,9 +102,7 @@ namespace FestivalAppDesktop.ViewModel
                 _enableDisableSaveCancel = value;
                 OnPropertyChanged("EnableDisableSaveCancel");
             }
-        }
-        
-        
+        }        
         #endregion
 
         public string Name

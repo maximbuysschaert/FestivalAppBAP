@@ -101,7 +101,20 @@ namespace FestivalAppDesktop.Model
                 Nieuw.FirstName = reader["FirstName"].ToString();
                 Nieuw.LastName = reader["LastName"].ToString();
                 Nieuw.Company = reader["Company"].ToString();
-                //Nieuw.ContactPersonType = (ContactPersonType) reader["JobRole"];
+
+
+                int JobRole = Int32.Parse( reader["JobRole"].ToString());
+                ObservableCollection<ContactPersonType> types = ContactPersonType.GetContactPersonTypes();
+
+                foreach (ContactPersonType type in types)
+                {
+                    if(type.id == JobRole)
+                    {
+                        Nieuw.ContactPersonType = type;
+                    }
+                }
+
+
                 Nieuw.Address = reader["Address"].ToString();
                 Nieuw.City = reader["City"].ToString();
                 Nieuw.Email = reader["Email"].ToString();

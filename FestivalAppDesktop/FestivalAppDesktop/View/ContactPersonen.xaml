@@ -51,16 +51,18 @@
         <TextBlock Grid.Column="2" Margin="100,12,8,12" Grid.Row="9" TextWrapping="Wrap" VerticalAlignment="Center" Text="Telefoonnummer:"/>
         <TextBlock Grid.Column="2" Margin="100,12,8,12" Grid.Row="10" TextWrapping="Wrap" Text="Gsmnummer:" VerticalAlignment="Center"/>
         <TextBlock Grid.Column="2" Margin="100,12,8,12" Grid.Row="11" TextWrapping="Wrap" Text="E-mailadres:" VerticalAlignment="Center"/>
-        <TextBox Grid.Column="3" Margin="8,11" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding SelectedContactPerson.LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding ReadOnlyProperty}" Grid.ColumnSpan="2"/>
-        <TextBox Grid.Column="3" Margin="8,11" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding SelectedContactPerson.FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding ReadOnlyProperty}" Grid.ColumnSpan="2"/>
-        <TextBox Grid.Column="3" Margin="8,11" Grid.Row="5" TextWrapping="Wrap" VerticalAlignment="Center" IsReadOnly="{Binding ReadOnlyProperty}" Grid.ColumnSpan="2"/>
-        <TextBox Grid.Column="3" Margin="8,11" Grid.Row="6" TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding SelectedContactPerson.Address}" IsReadOnly="{Binding ReadOnlyProperty}" Grid.ColumnSpan="2"/>
-        <TextBox Grid.Column="3" Margin="8,11" Grid.Row="7" TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding SelectedContactPerson.City}" IsReadOnly="{Binding ReadOnlyProperty}" Grid.ColumnSpan="2"/>
-        <TextBox Grid.Column="3" Margin="8,11" Grid.Row="8" TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding SelectedContactPerson.Company}" IsReadOnly="{Binding ReadOnlyProperty}" Grid.ColumnSpan="2"/>
-        <TextBox Grid.Column="3" Margin="8,11" Grid.Row="9" TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding SelectedContactPerson.Phone}" IsReadOnly="{Binding ReadOnlyProperty}" Grid.ColumnSpan="2"/>
-        <TextBox Grid.Column="3" Margin="8,11" Grid.Row="10" TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding SelectedContactPerson.CellPhone}" IsReadOnly="{Binding ReadOnlyProperty}" Grid.ColumnSpan="2"/>
-        <TextBox Grid.Column="3" Margin="8,11" Grid.Row="11" TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding SelectedContactPerson.Email}" IsReadOnly="{Binding ReadOnlyProperty}" Grid.ColumnSpan="2"/>
+        <TextBox Grid.Column="3" Margin="8" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding SelectedContactPerson.LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding ReadOnlyProperty}" Grid.ColumnSpan="2"/>
+        <TextBox Grid.Column="3" Margin="8" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding SelectedContactPerson.FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding ReadOnlyProperty}" Grid.ColumnSpan="2"/>
+        <TextBox Grid.Column="3" Margin="8" Grid.Row="6" TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding SelectedContactPerson.Address}" IsReadOnly="{Binding ReadOnlyProperty}" Grid.ColumnSpan="2"/>
+        <TextBox Grid.Column="3" Margin="8" Grid.Row="7" TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding SelectedContactPerson.City}" IsReadOnly="{Binding ReadOnlyProperty}" Grid.ColumnSpan="2"/>
+        <TextBox Grid.Column="3" Margin="8" Grid.Row="8" TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding SelectedContactPerson.Company}" IsReadOnly="{Binding ReadOnlyProperty}" Grid.ColumnSpan="2"/>
+        <TextBox Grid.Column="3" Margin="8" Grid.Row="9" TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding SelectedContactPerson.Phone}" IsReadOnly="{Binding ReadOnlyProperty}" Grid.ColumnSpan="2"/>
+        <TextBox Grid.Column="3" Margin="8" Grid.Row="10" TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding SelectedContactPerson.CellPhone}" IsReadOnly="{Binding ReadOnlyProperty}" Grid.ColumnSpan="2"/>
+        <TextBox Grid.Column="3" Margin="8" Grid.Row="11" TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding SelectedContactPerson.Email}" IsReadOnly="{Binding ReadOnlyProperty}" Grid.ColumnSpan="2"/>
         <Button Content="Annuleer" Grid.Column="3" Margin="8" Grid.Row="12" IsEnabled="{Binding EnableDisableSaveCancel}"/>
         <Button Content="Opslaan" Grid.Column="4" Margin="8" Grid.Row="12" IsEnabled="{Binding EnableDisableSaveCancel}" Command="{Binding SaveNewContactPersonCommand}"/>
+        <ComboBox Grid.ColumnSpan="2" Grid.Column="3" Margin="8" Grid.Row="5" ItemsSource="{Binding ContactPersonTypes}" Visibility="Hidden" DisplayMemberPath="name" IsEnabled="False" SelectedItem="{Binding SelectedContactPerson.ContactPersonType}"/>
+        <TextBox Grid.ColumnSpan="2" Grid.Column="3" Margin="8" Grid.Row="5" TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding SelectedContactPerson.ContactPersonType.name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding ReadOnlyProperty}" />
+
     </Grid>
 </UserControl>
