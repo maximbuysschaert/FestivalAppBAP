@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" Width="1042" Height="629">
+             mc:Ignorable="d">
     <Grid Background="#FFE5E5E5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="4*"/>
@@ -29,19 +29,20 @@
             <RowDefinition Height="3*"/>
         </Grid.RowDefinitions>
         <TextBlock Margin="16,0" TextWrapping="Wrap" VerticalAlignment="Bottom"><Run Language="nl-be" Text="Kies type:"/></TextBlock>
-        <ComboBox Margin="16,4" Grid.Row="1"/>
+        <ComboBox Margin="16,4" Grid.Row="1" ItemsSource="{Binding ActualContactPersonTypes}" DisplayMemberPath="name"/>
         <TextBlock TextWrapping="Wrap" Text="TextBlock" Margin="16,0" Grid.Row="2" VerticalAlignment="Bottom"/>
         <ListView IsEnabled="{Binding EnableDisableListView}" Margin="16,4,16,16" Grid.Row="3" Grid.RowSpan="11" SelectedItem="{Binding SelectedContactPerson}" ItemsSource="{Binding ContactPersonen, UpdateSourceTrigger=PropertyChanged}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="FirstName" DisplayMemberBinding="{Binding Path=FirstName}"/>
                     <GridViewColumn Header="LastName" DisplayMemberBinding="{Binding Path=LastName}"/>
+                    <GridViewColumn Header="JobRole" DisplayMemberBinding="{Binding Path=ContactPersonType.name}"/>
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button Content="Voeg toe" Grid.Column="1" Margin="4" Grid.Row="3" IsEnabled="{Binding EnableDisableControls}" Command="{Binding AddNewContactPersonCommand}"/>
-        <Button Content="Wijzig" Grid.Column="1" Margin="4" Grid.Row="4" IsEnabled="{Binding EnableDisableControls}"/>
-        <Button Content="Verwijder" Grid.Column="1" Margin="4" Grid.Row="5" IsEnabled="{Binding EnableDisableControls}"/>
+        <Button Content="Voeg toe" Grid.Column="1" Margin="4" Grid.Row="3" IsEnabled="{Binding EnableDisableControlsAdd}" Command="{Binding AddNewContactPersonCommand}"/>
+        <Button Content="Wijzig" Grid.Column="1" Margin="4" Grid.Row="4" IsEnabled="{Binding EnableDisableControlsEdit}" Command="{Binding EditNewContactPersonCommand}"/>
+        <Button Content="Verwijder" Grid.Column="1" Margin="4" Grid.Row="5" IsEnabled="{Binding EnableDisableControlsDelete}" Command="{Binding DeleteContactPersonCommand}"/>
         <TextBlock Grid.Column="2" Margin="100,12,8,12" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Center" Text="Naam:"/>
         <TextBlock Grid.Column="2" Margin="100,12,8,12" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Center" Text="Voornaam:"/>
         <TextBlock Grid.Column="2" Margin="100,11,8,11" Grid.Row="5" TextWrapping="Wrap" Text="Type:" VerticalAlignment="Center" Height="18"/>
@@ -59,10 +60,9 @@
         <TextBox Grid.Column="3" Margin="8" Grid.Row="9" TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding SelectedContactPerson.Phone}" IsReadOnly="{Binding ReadOnlyProperty}" Grid.ColumnSpan="2"/>
         <TextBox Grid.Column="3" Margin="8" Grid.Row="10" TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding SelectedContactPerson.CellPhone}" IsReadOnly="{Binding ReadOnlyProperty}" Grid.ColumnSpan="2"/>
         <TextBox Grid.Column="3" Margin="8" Grid.Row="11" TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding SelectedContactPerson.Email}" IsReadOnly="{Binding ReadOnlyProperty}" Grid.ColumnSpan="2"/>
-        <Button Content="Annuleer" Grid.Column="3" Margin="8" Grid.Row="12" IsEnabled="{Binding EnableDisableSaveCancel}"/>
+        <Button Content="Annuleer" Grid.Column="3" Margin="8" Grid.Row="12" IsEnabled="{Binding EnableDisableSaveCancel}" Command="{Binding CancelNewContactPersonCommand}"/>
         <Button Content="Opslaan" Grid.Column="4" Margin="8" Grid.Row="12" IsEnabled="{Binding EnableDisableSaveCancel}" Command="{Binding SaveNewContactPersonCommand}"/>
-        <ComboBox Grid.ColumnSpan="2" Grid.Column="3" Margin="8" Grid.Row="5" ItemsSource="{Binding ContactPersonTypes}" Visibility="Hidden" DisplayMemberPath="name" IsEnabled="False" SelectedItem="{Binding SelectedContactPerson.ContactPersonType}"/>
-        <TextBox Grid.ColumnSpan="2" Grid.Column="3" Margin="8" Grid.Row="5" TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding SelectedContactPerson.ContactPersonType.name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding ReadOnlyProperty}" />
-
+        <ComboBox Grid.ColumnSpan="2" Grid.Column="3" Margin="8" Grid.Row="5" ItemsSource="{Binding ContactPersonTypes}" Visibility="{Binding VisibilityCombobox}" DisplayMemberPath="name" Text="{Binding SelectedContactPerson.ContactPersonType.name}" SelectedItem="{Binding SelectedContactPerson.ContactPersonType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.ColumnSpan="2" Grid.Column="3" Margin="8" Grid.Row="5" TextWrapping="Wrap" VerticalAlignment="Center" Visibility="{Binding VisibilityTextbox}" Text="{Binding SelectedContactPerson.ContactPersonType.name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding ReadOnlyProperty}"/>
     </Grid>
 </UserControl>

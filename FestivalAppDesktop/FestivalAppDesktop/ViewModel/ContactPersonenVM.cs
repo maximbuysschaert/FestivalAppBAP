@@ -19,11 +19,18 @@ namespace FestivalAppDesktop.ViewModel
         {
             _ContactPersonen = ContactPerson.GetContactPersons();
             _contactPersonTypes = ContactPersonType.GetContactPersonTypes();
+            _actualContactPersonTypes = GetActualContactPersonTypes();
             ReadOnlyProperty = true;
-            EnableDisableControls = true;
+            EnableDisableControlsAdd = true;
+            EnableDisableControlsEdit = false;
+            EnableDisableControlsDelete = false;
             EnableDisableListView = true;
             EnableDisableSaveCancel = false;
+            VisibilityCombobox = "hidden";
+            VisibilityTextbox = "visible";
         }
+
+        private int Teller = 0;
 
         #region "Properties"
         private ObservableCollection<ContactPerson> _ContactPersonen;
@@ -56,6 +63,12 @@ namespace FestivalAppDesktop.ViewModel
             set 
             { 
                 _selectedContactPerson = value;
+                if(SelectedContactPerson != null)
+                {
+                    EnableDisableControlsEdit = true;
+                    EnableDisableControlsDelete = true;
+                }
+
                 OnPropertyChanged("SelectedContactPerson");
             }
         }
@@ -71,14 +84,36 @@ namespace FestivalAppDesktop.ViewModel
             }
         }
 
-        private Boolean _enableDisableControls;
-        public Boolean EnableDisableControls
+        private Boolean _enableDisableControlsAdd;
+        public Boolean EnableDisableControlsAdd
         {
-            get { return _enableDisableControls; }
+            get { return _enableDisableControlsAdd; }
             set 
             { 
-                _enableDisableControls = value;
-                OnPropertyChanged("EnableDisableControls");
+                _enableDisableControlsAdd = value;
+                OnPropertyChanged("EnableDisableControlsAdd");
+            }
+        }
+
+        private Boolean _enableDisableControlsDelete;
+        public Boolean EnableDisableControlsDelete
+        {
+            get { return _enableDisableControlsDelete; }
+            set
+            {
+                _enableDisableControlsDelete = value;
+                OnPropertyChanged("EnableDisableControlsDelete");
+            }
+        }
+
+        private Boolean _enableDisableControlsEdit;
+        public Boolean EnableDisableControlsEdit
+        {
+            get { return _enableDisableControlsEdit; }
+            set
+            {
+                _enableDisableControlsEdit = value;
+                OnPropertyChanged("EnableDisableControlsEdit");
             }
         }
 
@@ -102,7 +137,51 @@ namespace FestivalAppDesktop.ViewModel
                 _enableDisableSaveCancel = value;
                 OnPropertyChanged("EnableDisableSaveCancel");
             }
-        }        
+        }
+
+        private string _visibilityTextbox;
+        public string VisibilityTextbox
+        {
+            get { return _visibilityTextbox; }
+            set 
+            { 
+                _visibilityTextbox = value;
+                OnPropertyChanged("VisibilityTextbox");
+            }
+        }
+
+        private string _visibilityCombobox;
+        public string VisibilityCombobox
+        {
+            get { return _visibilityCombobox; }
+            set 
+            { 
+                _visibilityCombobox = value;
+                OnPropertyChanged("VisibilityCombobox");
+            }
+        }
+
+        private ObservableCollection<ContactPersonType> _actualContactPersonTypes;
+        public ObservableCollection<ContactPersonType> ActualContactPersonTypes
+        {
+            get { return _actualContactPersonTypes; }
+            set 
+            { 
+                _actualContactPersonTypes = value;
+                OnPropertyChanged("ActualContactPersonTypes");
+            }
+        }
+
+        private int myVar;
+
+        public int MyProperty
+        {
+            get { return myVar; }
+            set { myVar = value; }
+        }
+        
+        
+        
         #endregion
 
         public string Name
@@ -125,40 +204,177 @@ namespace FestivalAppDesktop.ViewModel
                 return new RelayCommand(InsertDatabase);
             }
         }
+
+        public ICommand CancelNewContactPersonCommand
+        {
+            get
+            {
+                return new RelayCommand(CancelContact);
+            }
+        }
+
+        public ICommand EditNewContactPersonCommand
+        {
+            get
+            {
+                return new RelayCommand(EditContact);
+            }
+        }
+
+        public ICommand DeleteContactPersonCommand
+        {
+            get
+            {
+                return new RelayCommand(DeleteContact);
+            }
+        }
+
         private void AddNewContactPerson()
         {
+            Teller = 1;
+
             ContactPerson nieuw = new ContactPerson();
             SelectedContactPerson = nieuw;
 
             ReadOnlyProperty = false;
-            EnableDisableControls = false;
+            EnableDisableControlsAdd = false;
+            EnableDisableControlsEdit = false;
+            EnableDisableControlsDelete = false;
             EnableDisableListView = false;
             EnableDisableSaveCancel = true;
+            VisibilityTextbox = "hidden";
+            VisibilityCombobox = "visible";
         }
 
         private void InsertDatabase()
-        {         
-            //Console.WriteLine(SelectedContactPerson.FirstName);
-            DbParameter[] parameters = new DbParameter[8];
-            parameters[0] = new SqlParameter("param1", SelectedContactPerson.FirstName);
-            parameters[1] = new SqlParameter("param2", SelectedContactPerson.LastName);
-            parameters[2] = new SqlParameter("param3", SelectedContactPerson.Company);
-            parameters[3] = new SqlParameter("param4", SelectedContactPerson.Address);
-            parameters[4] = new SqlParameter("param5", SelectedContactPerson.City);
-            parameters[5] = new SqlParameter("param6", SelectedContactPerson.Email);
-            parameters[6] = new SqlParameter("param7", SelectedContactPerson.Phone);
-            parameters[7] = new SqlParameter("param8", SelectedContactPerson.CellPhone);
+        {
+            if (Teller == 1)
+            {
+                //Console.WriteLine(SelectedContactPerson.FirstName);
+                DbParameter[] parameters = new DbParameter[9];
+                parameters[0] = new SqlParameter("param1", SelectedContactPerson.FirstName);
+                parameters[1] = new SqlParameter("param2", SelectedContactPerson.LastName);
+                parameters[2] = new SqlParameter("param3", SelectedContactPerson.Company);
+                parameters[3] = new SqlParameter("param4", SelectedContactPerson.ContactPersonType.id);
+                parameters[4] = new SqlParameter("param5", SelectedContactPerson.Address);
+                parameters[5] = new SqlParameter("param6", SelectedContactPerson.City);
+                parameters[6] = new SqlParameter("param7", SelectedContactPerson.Email);
+                parameters[7] = new SqlParameter("param8", SelectedContactPerson.Phone);
+                parameters[8] = new SqlParameter("param9", SelectedContactPerson.CellPhone);
 
-            string SQL = "INSERT INTO ContactPerson (FirstName, LastName, Company, Address, City, Email, Phone, Cellphone) VALUES (@param1, @param2, @param3, @param4, @param5, @param6, @param7, @param8);";
+                string SQL = "INSERT INTO ContactPerson (FirstName, LastName, Company, JobRole, Address, City, Email, Phone, Cellphone) VALUES (@param1, @param2, @param3, @param4, @param5, @param6, @param7, @param8, @param9);";
+                Database.ModifyData(SQL, parameters);
+
+                ContactPersonen = ContactPerson.GetContactPersons();
+
+                EnableDisableControl();
+
+                ContactPerson nieuw = new ContactPerson();
+                SelectedContactPerson = nieuw;
+            }
+            else if(Teller == 2)
+            {
+                DbParameter[] parameters = new DbParameter[10];
+                parameters[0] = new SqlParameter("param1", SelectedContactPerson.FirstName);
+                parameters[1] = new SqlParameter("param2", SelectedContactPerson.LastName);
+                parameters[2] = new SqlParameter("param3", SelectedContactPerson.Company);
+                parameters[3] = new SqlParameter("param4", SelectedContactPerson.ContactPersonType.id);
+                parameters[4] = new SqlParameter("param5", SelectedContactPerson.Address);
+                parameters[5] = new SqlParameter("param6", SelectedContactPerson.City);
+                parameters[6] = new SqlParameter("param7", SelectedContactPerson.Email);
+                parameters[7] = new SqlParameter("param8", SelectedContactPerson.Phone);
+                parameters[8] = new SqlParameter("param9", SelectedContactPerson.CellPhone);
+                parameters[9] = new SqlParameter("param10", SelectedContactPerson.ID);
+
+                string SQL = "UPDATE ContactPerson SET FirstName=@param1, LastName=@param2, Company=@param3, JobRole=@param4, Address=@param5, City=@param6, Email=@param7, Phone=@param8, Cellphone=@param9  WHERE ID=@param10;";
+                Database.ModifyData(SQL, parameters);
+
+                ContactPersonen = ContactPerson.GetContactPersons();
+
+                EnableDisableControl();
+            }
+        }
+
+        private void CancelContact()
+        {
+            ContactPerson nieuw = new ContactPerson();
+            SelectedContactPerson = nieuw;
+
+            ContactPersonen = ContactPerson.GetContactPersons();
+
+            EnableDisableControl();
+        }
+
+        private void EnableDisableControl()
+        {
+            ReadOnlyProperty = true;
+            EnableDisableSaveCancel = false;
+            EnableDisableListView = true;
+            EnableDisableControlsAdd = true;
+            VisibilityCombobox = "hidden";
+            VisibilityTextbox = "visible";
+            EnableDisableControlsEdit = false;
+            EnableDisableControlsDelete = false;
+        }
+
+        private void EditContact()
+        {
+            Teller = 2;
+
+            ReadOnlyProperty = false;
+            EnableDisableControlsAdd = false;
+            EnableDisableControlsEdit = false;
+            EnableDisableControlsDelete = false;
+            EnableDisableListView = false;
+            EnableDisableSaveCancel = true;
+            VisibilityTextbox = "hidden";
+            VisibilityCombobox = "visible";
+        }
+
+        private void DeleteContact()
+        {
+            DbParameter[] parameters = new DbParameter[1];
+            parameters[0] = new SqlParameter("param1", SelectedContactPerson.ID);
+
+            string SQL = "DELETE FROM ContactPerson WHERE ID = @param1;";
             Database.ModifyData(SQL, parameters);
 
             ContactPersonen = ContactPerson.GetContactPersons();
-            EnableDisableSaveCancel = false;
-            EnableDisableListView = true;
-            EnableDisableControls = true;
+        }
+        
+        private ObservableCollection<ContactPersonType> GetActualContactPersonTypes()
+        {
+            ObservableCollection<ContactPersonType> types = new ObservableCollection<ContactPersonType>();
+            List<int> iTypes = new List<int>();
 
-            ContactPerson nieuw = new ContactPerson();
-            SelectedContactPerson = nieuw;
+            foreach(ContactPerson person in ContactPersonen)
+            {
+                if(!iTypes.Contains(person.ContactPersonType.id))
+                {
+                    iTypes.Add(person.ContactPersonType.id);
+                }
+            }
+
+            foreach(int i in iTypes)
+            {
+                foreach(ContactPersonType type in ContactPersonTypes)
+                {
+                    if(type.id.Equals(i))
+                    {
+                        types.Add(type);
+                    }
+                }
+            }
+
+            //foreach(ContactPerson person in ContactPersonen)
+            //{
+            //    if(!types.Contains(person.ContactPersonType))
+            //    {
+            //        types.Add(person.ContactPersonType);
+            //    }
+            //}
+
+            return types;
         }
     }
 }
