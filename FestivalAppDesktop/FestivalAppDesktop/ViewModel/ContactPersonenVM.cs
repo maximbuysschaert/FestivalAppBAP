@@ -20,6 +20,7 @@ namespace FestivalAppDesktop.ViewModel
             _ContactPersonen = ContactPerson.GetContactPersons();
             _contactPersonTypes = ContactPersonType.GetContactPersonTypes();
             _actualContactPersonTypes = GetActualContactPersonTypes();
+            GlobalContactPersonen = ContactPerson.GetContactPersons();
             ReadOnlyProperty = true;
             EnableDisableControlsAdd = true;
             EnableDisableControlsEdit = false;
@@ -31,6 +32,7 @@ namespace FestivalAppDesktop.ViewModel
         }
 
         private int Teller = 0;
+        private ObservableCollection<ContactPerson> GlobalContactPersonen = new ObservableCollection<ContactPerson>();
 
         #region "Properties"
         private ObservableCollection<ContactPerson> _ContactPersonen;
@@ -172,15 +174,18 @@ namespace FestivalAppDesktop.ViewModel
             }
         }
 
-        private int myVar;
+        private ContactPersonType _selectedContactPersonType;
 
-        public int MyProperty
+        public ContactPersonType SelectedContactPersonType
         {
-            get { return myVar; }
-            set { myVar = value; }
+            get { return _selectedContactPersonType; }
+            set 
+            { 
+                _selectedContactPersonType = value;
+                ShowSelectedContactType();
+                OnPropertyChanged("SelectedContactPersonType");
+            }
         }
-        
-        
         
         #endregion
 
@@ -266,6 +271,9 @@ namespace FestivalAppDesktop.ViewModel
                 Database.ModifyData(SQL, parameters);
 
                 ContactPersonen = ContactPerson.GetContactPersons();
+
+                ContactPersonType nieuwType = new ContactPersonType();
+                SelectedContactPersonType = nieuwType;
 
                 EnableDisableControl();
 
@@ -375,6 +383,21 @@ namespace FestivalAppDesktop.ViewModel
             //}
 
             return types;
+        }
+
+        private void ShowSelectedContactType()
+        {
+            ObservableCollection<ContactPerson> persons = new ObservableCollection<ContactPerson>();
+
+            foreach(ContactPerson person in GlobalContactPersonen)
+            {
+                if(person.ContactPersonType.name.Equals(SelectedContactPersonType.name))
+                {
+                    persons.Add(person);
+                }
+            }
+
+            ContactPersonen = persons;
         }
     }
 }

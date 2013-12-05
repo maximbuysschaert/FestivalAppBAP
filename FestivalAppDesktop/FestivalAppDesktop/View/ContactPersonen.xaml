@@ -29,7 +29,7 @@
             <RowDefinition Height="3*"/>
         </Grid.RowDefinitions>
         <TextBlock Margin="16,0" TextWrapping="Wrap" VerticalAlignment="Bottom"><Run Language="nl-be" Text="Kies type:"/></TextBlock>
-        <ComboBox Margin="16,4" Grid.Row="1" ItemsSource="{Binding ActualContactPersonTypes}" DisplayMemberPath="name"/>
+        <ComboBox Margin="16,4" Grid.Row="1" ItemsSource="{Binding ActualContactPersonTypes}" DisplayMemberPath="name" SelectedItem="{Binding SelectedContactPersonType, UpdateSourceTrigger=PropertyChanged}"/>
         <TextBlock TextWrapping="Wrap" Text="TextBlock" Margin="16,0" Grid.Row="2" VerticalAlignment="Bottom"/>
         <ListView IsEnabled="{Binding EnableDisableListView}" Margin="16,4,16,16" Grid.Row="3" Grid.RowSpan="11" SelectedItem="{Binding SelectedContactPerson}" ItemsSource="{Binding ContactPersonen, UpdateSourceTrigger=PropertyChanged}">
             <ListView.View>
