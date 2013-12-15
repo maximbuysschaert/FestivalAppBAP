@@ -1,15 +1,13 @@
-﻿using Oefening1.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FestivalAppDesktop.Model
+namespace Models.Model
 {
-    class ContactPerson
+    public class ContactPerson
     {
         private int _id;
         public int ID
@@ -84,47 +82,6 @@ namespace FestivalAppDesktop.Model
         {
             get { return _cellPhone; }
             set { _cellPhone = value; }
-        }
-        
-
-        public static ObservableCollection<ContactPerson> GetContactPersons()
-        {
-            ObservableCollection<ContactPerson> lijst = new ObservableCollection<ContactPerson>();
-
-            string SQL = "SELECT * FROM ContactPerson";
-            Database.GetData(SQL);
-            DbDataReader reader = Database.GetData(SQL);
-            while (reader.Read())
-            {
-                ContactPerson Nieuw = new ContactPerson();
-                Nieuw.ID = Int32.Parse(reader["ID"].ToString());
-                Nieuw.FirstName = reader["FirstName"].ToString();
-                Nieuw.LastName = reader["LastName"].ToString();
-                Nieuw.Company = reader["Company"].ToString();
-
-
-                int JobRole = Int32.Parse( reader["JobRole"].ToString());
-                ObservableCollection<ContactPersonType> types = ContactPersonType.GetContactPersonTypes();
-
-                foreach (ContactPersonType type in types)
-                {
-                    if(type.id == JobRole)
-                    {
-                        Nieuw.ContactPersonType = type;
-                    }
-                }
-
-
-                Nieuw.Address = reader["Address"].ToString();
-                Nieuw.City = reader["City"].ToString();
-                Nieuw.Email = reader["Email"].ToString();
-                Nieuw.Phone = reader["Phone"].ToString();
-                Nieuw.CellPhone = reader["Cellphone"].ToString();
-
-                lijst.Add(Nieuw);
-            }
-
-            return lijst;
         }
     }
 }

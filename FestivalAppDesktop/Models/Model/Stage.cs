@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FestivalAppDesktop.Model
+namespace Models.Model
 {
-    class TicketType
+    public class Stage
     {
         private string ID;
 
@@ -15,26 +15,13 @@ namespace FestivalAppDesktop.Model
             get { return ID; }
             set { ID = value; }
         }
+
         private string Name;
 
         public string name
         {
             get { return Name; }
             set { Name = value; }
-        }
-        private double Price;
-
-        public double price
-        {
-            get { return Price; }
-            set { Price = value; }
-        }
-        private int AvailableTickets;
-
-        public int availabletickets
-        {
-            get { return AvailableTickets; }
-            set { AvailableTickets = value; }
         }
         
     }

@@ -1,30 +1,17 @@
-﻿using Oefening1.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Models.Model;
+using System.Collections.ObjectModel;
+using System.Data.Common;
+using System.Data.SqlClient;
 
-namespace FestivalAppDesktop.Model
+namespace DAL
 {
-    class ContactPersonType
+    public class DALContactPersonTypes
     {
-        private int ID;
-        public int id
-        {
-            get { return ID; }
-            set { ID = value; }
-        }
-
-        private string Name;
-        public string name
-        {
-            get { return Name; }
-            set { Name = value; }
-        }
-
         public static ObservableCollection<ContactPersonType> GetContactPersonTypes()
         {
             ObservableCollection<ContactPersonType> lijst = new ObservableCollection<ContactPersonType>();
@@ -35,7 +22,7 @@ namespace FestivalAppDesktop.Model
             while (reader.Read())
             {
                 ContactPersonType Nieuw = new ContactPersonType();
-                Nieuw.ID = Int32.Parse(reader["ID"].ToString());
+                Nieuw.id = Int32.Parse(reader["ID"].ToString());
                 Nieuw.name = reader["Name"].ToString();
 
                 lijst.Add(Nieuw);
@@ -43,6 +30,15 @@ namespace FestivalAppDesktop.Model
 
             return lijst;
         }
-        
+
+        public static void InsertContactPersonType(ContactPersonType SelectedContactPersonType)
+        {
+            //Console.WriteLine(SelectedContactPerson.FirstName);
+            DbParameter[] parameters = new DbParameter[1];
+            parameters[0] = new SqlParameter("param1", SelectedContactPersonType.name);
+
+            string SQL = "INSERT INTO ContactPersonType (Name) VALUES (@param1);";
+            Database.ModifyData(SQL, parameters);
+        }
     }
 }

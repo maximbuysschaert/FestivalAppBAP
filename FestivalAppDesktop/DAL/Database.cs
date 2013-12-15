@@ -7,9 +7,9 @@ using System.Configuration;     //nieuw
 using System.Data.Common;
 using System.Data;     //nieuw
 
-namespace Oefening1.Model
+namespace DAL
 {
-    class Database
+    public class Database
     {
         //vooraf: instellingen ophalen uit config-bestand
         private static ConnectionStringSettings ConnectionString 
@@ -78,7 +78,7 @@ namespace Oefening1.Model
         public static DbDataReader GetData(string sql, params DbParameter[] parameters)
         {
             //zie ovirge methode(s)
-            DbCommand command = BuildCommand(sql, parameters);
+            DbCommand command = null;
             DbDataReader reader = null;
 
             try

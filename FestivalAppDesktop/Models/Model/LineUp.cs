@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FestivalAppDesktop.Model
+namespace Models.Model
 {
-    class LineUp
+    public class LineUp
     {
         private string ID;
 

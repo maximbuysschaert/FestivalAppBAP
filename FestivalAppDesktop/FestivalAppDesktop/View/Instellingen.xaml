@@ -20,29 +20,32 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="10*"/>
             <RowDefinition Height="1*"/>
-
+            <RowDefinition Height="9*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <TextBlock Margin="8" TextWrapping="Wrap"><Run Language="nl-be" Text="Begindatum:"/></TextBlock>
         <TextBlock Margin="8" Grid.Row="1" TextWrapping="Wrap"><Run Language="nl-be" Text="Einddatum:"/></TextBlock>
         <DatePicker Grid.ColumnSpan="2" Grid.Column="1" Margin="8"/>
         <DatePicker Grid.ColumnSpan="2" Grid.Column="1" Margin="8" Grid.Row="1"/>
-        <TextBlock Grid.ColumnSpan="2" Margin="8" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Bottom"><Run Language="nl-be" Text="Stages:"/></TextBlock>
-        <TextBlock Grid.ColumnSpan="2" Grid.Column="3" Margin="8" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Bottom"><Run Language="nl-be" Text="Genres:"/></TextBlock>
-        <TextBlock Grid.ColumnSpan="2" Grid.Column="6" Margin="8" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Bottom"><Run Language="nl-be" Text="Contacttypes:"/></TextBlock>
-        <ListBox Grid.ColumnSpan="3" Margin="8" Grid.Row="3"/>
-        <ListBox Grid.ColumnSpan="3" Grid.Column="3" Margin="8" Grid.Row="3"/>
-        <ListBox Grid.ColumnSpan="3" Grid.Column="6" Margin="8" Grid.Row="3"/>
-        <Button Content="Delete" Margin="8" Grid.Row="4"/>
-        <Button Content="Edit" Grid.Column="1" Margin="8" Grid.Row="4"/>
-        <Button Content="Add" Grid.Column="2" Margin="8" Grid.Row="4"/>
-        <Button Content="Delete" Margin="8" Grid.Row="4" Grid.Column="3"/>
-        <Button Content="Edit" Grid.Column="4" Margin="8" Grid.Row="4"/>
-        <Button Content="Add" Grid.Column="5" Margin="8" Grid.Row="4"/>
-        <Button Content="Delete" Margin="8" Grid.Row="4" Grid.Column="6"/>
-        <Button Content="Edit" Grid.Column="7" Margin="8" Grid.Row="4"/>
-        <Button Content="Add" Grid.Column="8" Margin="8" Grid.Row="4"/>
+        <TextBlock Grid.ColumnSpan="2" Margin="8,0,8,8" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Bottom" Grid.RowSpan="2"><Run Language="nl-be" Text="Stages:"/></TextBlock>
+        <TextBlock Grid.ColumnSpan="2" Grid.Column="3" Margin="8,0,8,8" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Bottom" Grid.RowSpan="2"><Run Language="nl-be" Text="Genres:"/></TextBlock>
+        <TextBlock Grid.ColumnSpan="2" Grid.Column="6" Margin="8,0,8,8" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Bottom" Grid.RowSpan="2"><Run Language="nl-be" Text="Contacttypes:"/></TextBlock>
+        <ListBox Grid.ColumnSpan="3" Margin="8,8,8,8" Grid.Row="3" Grid.RowSpan="2" Visibility="Hidden"/>
+        <ListBox Grid.ColumnSpan="3" Grid.Column="3" Margin="8,8,8,8" Grid.Row="3" Grid.RowSpan="2" Visibility="Hidden"/>
+        <ListBox Grid.ColumnSpan="3" Grid.Column="6" Margin="8" Grid.Row="3" ItemsSource="{Binding ContactPersonTypes}" DisplayMemberPath="name" SelectedItem="{Binding SelectedType}" Grid.RowSpan="2" Visibility="{Binding VisibilityContactPersonTypeListbox}"/>
+        <Button Content="Delete" Margin="8" Grid.Row="5"/>
+        <Button Content="Edit" Grid.Column="1" Margin="8" Grid.Row="5"/>
+        <Button Content="Add" Grid.Column="2" Margin="8" Grid.Row="5"/>
+        <Button Content="Delete" Margin="8" Grid.Row="5" Grid.Column="3"/>
+        <Button Content="Edit" Grid.Column="4" Margin="8" Grid.Row="5"/>
+        <Button Content="Add" Grid.Column="5" Margin="8" Grid.Row="5"/>
+        <Button Content="Delete" Margin="8" Grid.Row="5" Grid.Column="6"/>
+        <Button Content="Edit" Grid.Column="7" Margin="8" Grid.Row="5"/>
+        <Button Content="{Binding ButtonContentAddContactPersonType}" Grid.Column="8" Margin="8" Grid.Row="5" Command="{Binding AddContactPersonTypeCommand}"/>
+        <TextBox Margin="8" Grid.Row="4" TextWrapping="Wrap" Text="" Grid.ColumnSpan="3"/>
+        <TextBox Grid.Column="3" Margin="8" Grid.Row="4" TextWrapping="Wrap" Text="" Grid.ColumnSpan="3"/>
+        <TextBox Grid.Column="6" Margin="8" Grid.Row="4" TextWrapping="Wrap" Text="{Binding SelectedType.name}" Grid.ColumnSpan="3" Visibility="{Binding VisibilityContactPersonTypeTextbox}"/>
     </Grid>
 </UserControl>

@@ -1,28 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FestivalAppDesktop.Model
+namespace Models.Model
 {
-    class Stage
+    public class ContactPersonType
     {
-        private string ID;
-
-        public string id
+        private int ID;
+        public int id
         {
             get { return ID; }
             set { ID = value; }
         }
 
         private string Name;
-
         public string name
         {
             get { return Name; }
             set { Name = value; }
-        }
-        
+        }        
     }
 }

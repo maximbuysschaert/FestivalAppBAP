@@ -1,6 +1,6 @@
-﻿using FestivalAppDesktop.Model;
+﻿using Models.Model;
+using DAL;
 using GalaSoft.MvvmLight.Command;
-using Oefening1.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,10 +17,10 @@ namespace FestivalAppDesktop.ViewModel
     {
         public ContactPersonenVM()
         {
-            _ContactPersonen = ContactPerson.GetContactPersons();
-            _contactPersonTypes = ContactPersonType.GetContactPersonTypes();
+            _ContactPersonen = DALContactPerson.GetContactPersons();
+            _contactPersonTypes = DALContactPersonTypes.GetContactPersonTypes();
             _actualContactPersonTypes = GetActualContactPersonTypes();
-            GlobalContactPersonen = ContactPerson.GetContactPersons();
+            GlobalContactPersonen = DALContactPerson.GetContactPersons();
             ReadOnlyProperty = true;
             EnableDisableControlsAdd = true;
             EnableDisableControlsEdit = false;
@@ -33,6 +33,7 @@ namespace FestivalAppDesktop.ViewModel
 
         private int Teller = 0;
         private ObservableCollection<ContactPerson> GlobalContactPersonen = new ObservableCollection<ContactPerson>();
+        private ContactPerson CacheContactPerson = new ContactPerson();
 
         #region "Properties"
         private ObservableCollection<ContactPerson> _ContactPersonen;
@@ -238,6 +239,8 @@ namespace FestivalAppDesktop.ViewModel
         {
             Teller = 1;
 
+            CacheContactPerson = SelectedContactPerson;
+
             ContactPerson nieuw = new ContactPerson();
             SelectedContactPerson = nieuw;
 
@@ -255,49 +258,52 @@ namespace FestivalAppDesktop.ViewModel
         {
             if (Teller == 1)
             {
-                //Console.WriteLine(SelectedContactPerson.FirstName);
-                DbParameter[] parameters = new DbParameter[9];
-                parameters[0] = new SqlParameter("param1", SelectedContactPerson.FirstName);
-                parameters[1] = new SqlParameter("param2", SelectedContactPerson.LastName);
-                parameters[2] = new SqlParameter("param3", SelectedContactPerson.Company);
-                parameters[3] = new SqlParameter("param4", SelectedContactPerson.ContactPersonType.id);
-                parameters[4] = new SqlParameter("param5", SelectedContactPerson.Address);
-                parameters[5] = new SqlParameter("param6", SelectedContactPerson.City);
-                parameters[6] = new SqlParameter("param7", SelectedContactPerson.Email);
-                parameters[7] = new SqlParameter("param8", SelectedContactPerson.Phone);
-                parameters[8] = new SqlParameter("param9", SelectedContactPerson.CellPhone);
+                CacheContactPerson = SelectedContactPerson;
 
-                string SQL = "INSERT INTO ContactPerson (FirstName, LastName, Company, JobRole, Address, City, Email, Phone, Cellphone) VALUES (@param1, @param2, @param3, @param4, @param5, @param6, @param7, @param8, @param9);";
-                Database.ModifyData(SQL, parameters);
+                DALContactPerson.InsertContactPerson(SelectedContactPerson);
 
-                ContactPersonen = ContactPerson.GetContactPersons();
+                ContactPersonen = DALContactPerson.GetContactPersons();
+                GlobalContactPersonen = DALContactPerson.GetContactPersons();
+                    
+                //ContactPersonType nieuwType = new ContactPersonType();
+                //SelectedContactPersonType = nieuwType; 
 
-                ContactPersonType nieuwType = new ContactPersonType();
-                SelectedContactPersonType = nieuwType;
+                //ContactPerson nieuw = new ContactPerson();
+                //SelectedContactPerson = nieuw;
+
+                int aantal = ContactPersonen.Count();
+                SelectedContactPerson = ContactPersonen[aantal - 1];
 
                 EnableDisableControl();
-
-                ContactPerson nieuw = new ContactPerson();
-                SelectedContactPerson = nieuw;
             }
             else if(Teller == 2)
             {
-                DbParameter[] parameters = new DbParameter[10];
-                parameters[0] = new SqlParameter("param1", SelectedContactPerson.FirstName);
-                parameters[1] = new SqlParameter("param2", SelectedContactPerson.LastName);
-                parameters[2] = new SqlParameter("param3", SelectedContactPerson.Company);
-                parameters[3] = new SqlParameter("param4", SelectedContactPerson.ContactPersonType.id);
-                parameters[4] = new SqlParameter("param5", SelectedContactPerson.Address);
-                parameters[5] = new SqlParameter("param6", SelectedContactPerson.City);
-                parameters[6] = new SqlParameter("param7", SelectedContactPerson.Email);
-                parameters[7] = new SqlParameter("param8", SelectedContactPerson.Phone);
-                parameters[8] = new SqlParameter("param9", SelectedContactPerson.CellPhone);
-                parameters[9] = new SqlParameter("param10", SelectedContactPerson.ID);
+                CacheContactPerson = SelectedContactPerson;
 
-                string SQL = "UPDATE ContactPerson SET FirstName=@param1, LastName=@param2, Company=@param3, JobRole=@param4, Address=@param5, City=@param6, Email=@param7, Phone=@param8, Cellphone=@param9  WHERE ID=@param10;";
-                Database.ModifyData(SQL, parameters);
+                ContactPerson SelectedPerson = SelectedContactPerson;
+                //Database.ModifyData(SQL, new SqlParameter[]{
+                //new SqlParameter("param1", SelectedContactPerson.FirstName),
+                //new SqlParameter("param1", SelectedContactPerson.FirstName),
+                //new SqlParameter("param1", SelectedContactPerson.FirstName);
+                //});
 
-                ContactPersonen = ContactPerson.GetContactPersons();
+                DALContactPerson.UpdataContactPerson(SelectedPerson);
+
+                ContactPersonen = DALContactPerson.GetContactPersons();
+                GlobalContactPersonen = DALContactPerson.GetContactPersons();
+
+                int i = 0;
+                foreach(ContactPerson person in ContactPersonen)
+                {                    
+                    if(person.ID == SelectedPerson.ID)
+                    {
+                        SelectedContactPerson = ContactPersonen[i];
+                    }
+                    else
+                    {
+                        i++;
+                    }
+                }
 
                 EnableDisableControl();
             }
@@ -305,10 +311,14 @@ namespace FestivalAppDesktop.ViewModel
 
         private void CancelContact()
         {
-            ContactPerson nieuw = new ContactPerson();
-            SelectedContactPerson = nieuw;
+            //ContactPerson nieuw = new ContactPerson();
+            //SelectedContactPerson = nieuw;
 
-            ContactPersonen = ContactPerson.GetContactPersons();
+            ContactPersonen = DALContactPerson.GetContactPersons();
+            GlobalContactPersonen = DALContactPerson.GetContactPersons();
+           
+            SelectedContactPerson = CacheContactPerson;
+            
 
             EnableDisableControl();
         }
@@ -321,8 +331,8 @@ namespace FestivalAppDesktop.ViewModel
             EnableDisableControlsAdd = true;
             VisibilityCombobox = "hidden";
             VisibilityTextbox = "visible";
-            EnableDisableControlsEdit = false;
-            EnableDisableControlsDelete = false;
+            EnableDisableControlsEdit = true;
+            EnableDisableControlsDelete = true;
         }
 
         private void EditContact()
@@ -341,13 +351,9 @@ namespace FestivalAppDesktop.ViewModel
 
         private void DeleteContact()
         {
-            DbParameter[] parameters = new DbParameter[1];
-            parameters[0] = new SqlParameter("param1", SelectedContactPerson.ID);
+            DALContactPerson.DeleteContactPerson(SelectedContactPerson);
 
-            string SQL = "DELETE FROM ContactPerson WHERE ID = @param1;";
-            Database.ModifyData(SQL, parameters);
-
-            ContactPersonen = ContactPerson.GetContactPersons();
+            ContactPersonen = DALContactPerson.GetContactPersons();
         }
         
         private ObservableCollection<ContactPersonType> GetActualContactPersonTypes()
