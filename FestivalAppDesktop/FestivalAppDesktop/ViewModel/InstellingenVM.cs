@@ -15,6 +15,7 @@ namespace FestivalAppDesktop.ViewModel
     {
         public InstellingenVM()
         {
+            #region "ContactPersonType"
             ContactPersonTypes = DALContactPersonTypes.GetContactPersonTypes();
             ContactPersons = DALContactPerson.GetContactPersons();
 
@@ -27,8 +28,23 @@ namespace FestivalAppDesktop.ViewModel
             EnableDisableContactPersonTypeDeleteButton = false;
             EnableDisableContactPersonTypeEditButton = false;
             EnableDisableContactPersonTypeAddButton = true;
+            #endregion
+            #region "Genres"
+            Genres = DALGenres.GetGenres();
+
+            VisibilityGenreListbox = "visible";
+            VisibilityGenreTextbox = "hidden";
+
+            ButtonContentAddGenre = "Voeg toe";
+            ButtonContentEditGenre = "Wijzig";
+
+            EnableDisableGenreDeleteButton = false;
+            EnableDisableGenreEditButton = false;
+            EnableDisableGenreAddButton = true;
+            #endregion
         }
 
+        #region "ContactPersonTypes"
         private ObservableCollection<ContactPerson> ContactPersons = new ObservableCollection<ContactPerson>();
 
         private ObservableCollection<ContactPersonType> _contactPersonTypes;
@@ -252,5 +268,230 @@ namespace FestivalAppDesktop.ViewModel
                 }
             }
         }
+
+        #endregion
+        #region "Genres"
+        private ObservableCollection<ContactPerson> Bands = new ObservableCollection<ContactPerson>();
+        private ObservableCollection<Genre> _genres;
+        public ObservableCollection<Genre> Genres
+        {
+            get { return _genres; }
+            set 
+            { 
+                _genres = value;
+                OnPropertyChanged("Genres");
+            }
+        }
+
+        private Genre _selectedGenre;
+        public Genre SelectedGenre
+        {
+            get { return _selectedGenre; }
+            set
+            {
+                _selectedGenre = value;
+                if (SelectedGenre != null)
+                {
+                    //nog te implementeren! 
+                    //ChangeGenreDeleteButton();
+                    EnableDisableGenreEditButton = true;
+                    Console.WriteLine("test");
+                }
+                OnPropertyChanged("SelectedGenre");
+            }
+        }
+
+        private string _visibilityGenreTextbox;
+        public string VisibilityGenreTextbox
+        {
+            get { return _visibilityGenreTextbox; }
+            set
+            {
+                _visibilityGenreTextbox = value;
+                OnPropertyChanged("VisibilityGenreTextbox");
+            }
+        }
+
+        private string _visibilityGenreListbox;
+        public string VisibilityGenreListbox
+        {
+            get { return _visibilityGenreListbox; }
+            set
+            {
+                _visibilityGenreListbox = value;
+                OnPropertyChanged("VisibilityGenreListbox");
+            }
+        }
+
+        private Boolean _enableDisableGenreDeleteButton;
+        public Boolean EnableDisableGenreDeleteButton
+        {
+            get { return _enableDisableGenreDeleteButton; }
+            set
+            {
+                _enableDisableGenreDeleteButton = value;
+                OnPropertyChanged("EnableDisableGenreDeleteButton");
+            }
+        }
+
+        private Boolean _enablaDisableGenreAddButton;
+        public Boolean EnableDisableGenreAddButton
+        {
+            get { return _enablaDisableGenreAddButton; }
+            set
+            {
+                _enablaDisableGenreAddButton = value;
+                OnPropertyChanged("EnableDisableGenreAddButton");
+            }
+        }
+
+        private Boolean _enableDisableGenreEditButton;
+        public Boolean EnableDisableGenreEditButton
+        {
+            get { return _enableDisableGenreEditButton; }
+            set
+            {
+                _enableDisableGenreEditButton = value;
+                OnPropertyChanged("EnableDisableGenreEditButton");
+            }
+        }
+
+
+        private string _buttonContentAddGenre;
+        public string ButtonContentAddGenre
+        {
+            get { return _buttonContentAddGenre; }
+            set
+            {
+                _buttonContentAddGenre = value;
+                OnPropertyChanged("ButtonContentAddGenre");
+            }
+        }
+
+        private string _buttonContentEditGenre;
+        public string ButtonContentEditGenre
+        {
+            get { return _buttonContentEditGenre; }
+            set
+            {
+                _buttonContentEditGenre = value;
+                OnPropertyChanged("ButtonContentEditGenre");
+            }
+        }
+
+        private string _contentTextboxGenre;
+        public string ContentTextboxGenre
+        {
+            get { return _contentTextboxGenre; }
+            set
+            {
+                _contentTextboxGenre = value;
+                OnPropertyChanged("ContentTextboxGenre");
+            }
+        }
+
+        public ICommand AddGenreCommand
+        {
+            get
+            {
+                return new RelayCommand(AddGenre);
+            }
+        }
+
+        public ICommand EditGenreCommand
+        {
+            get
+            {
+                return new RelayCommand(EditGenre);
+            }
+        }
+
+        public ICommand DeleteGenreCommand
+        {
+            get
+            {
+                return new RelayCommand(DeleteGenre);
+            }
+        }
+
+        private void AddGenre()
+        {
+            if (ButtonContentAddGenre == "Voeg toe")
+            {
+                Genre nieuw = new Genre();
+                SelectedGenre = nieuw;
+
+                ButtonContentAddGenre = "Opslaan";
+                VisibilityGenreListbox = "hidden";
+                VisibilityGenreTextbox = "visible";
+                EnableDisableGenreDeleteButton = false;
+                EnableDisableGenreEditButton = false;
+            }
+            else
+            {
+                DALGenres.InsertGenre(SelectedGenre);
+                Genres = DALGenres.GetGenres();
+
+                ButtonContentAddGenre = "Voeg toe";
+                VisibilityGenreListbox = "visible";
+                VisibilityGenreTextbox = "hidden";
+            }
+        }
+
+        private void EditGenre()
+        {
+            if (ButtonContentEditGenre == "Wijzig")
+            {
+                ButtonContentEditGenre = "Opslaan";
+                VisibilityGenreListbox = "hidden";
+                VisibilityGenreTextbox = "visible";
+
+                EnableDisableGenreAddButton = false;
+                EnableDisableGenreDeleteButton = false;
+            }
+            else
+            {
+                DALGenres.UpdataGenre(SelectedGenre);
+                Genres = DALGenres.GetGenres();
+                //Nog implementeren
+                //ContactPersons = DALContactPerson.GetContactPersons();
+                //Bands = DALBans.GetBands();
+
+                ButtonContentEditGenre = "Wijzig";
+                VisibilityGenreListbox = "visible";
+                VisibilityGenreTextbox = "hidden";
+
+                EnableDisableGenreAddButton = true;
+                EnableDisableGenreEditButton = false;
+            }
+        }
+
+        private void DeleteGenre()
+        {
+            DALGenres.DeleteGenre(SelectedGenre);
+            Genres = DALGenres.GetGenres();
+
+            EnableDisableGenreDeleteButton = false;
+            EnableDisableGenreEditButton = false;
+        }
+
+        //nog te implementeren! 
+        //private void ChangeGenreDeleteButton()
+        //{
+        //    foreach (ContactPerson person in ContactPersons)
+        //    {
+        //        if (person.ContactPersonType.id.Equals(SelectedType.id))
+        //        {
+        //            EnableDisableContactPersonTypeDeleteButton = false;
+        //            return;
+        //        }
+        //        else
+        //        {
+        //            EnableDisableContactPersonTypeDeleteButton = true;
+        //            Console.WriteLine("Geen contactpersonen gevonden");
+        //        }
+        //    }
+        //}
+        #endregion 
     }
 }

@@ -8,9 +8,9 @@ namespace Models.Model
 {
     public class Genre
     {
-        private string ID;
+        private int ID;
 
-        public string id
+        public int id
         {
             get { return ID; }
             set { ID = value; }

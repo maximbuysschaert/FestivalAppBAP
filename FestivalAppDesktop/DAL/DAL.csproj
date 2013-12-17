@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="DALContactPerson.cs" />
     <Compile Include="DALContactPersonTypes.cs" />
+    <Compile Include="DALGenres.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
