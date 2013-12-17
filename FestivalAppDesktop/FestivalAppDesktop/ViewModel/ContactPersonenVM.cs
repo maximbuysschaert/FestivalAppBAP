@@ -51,13 +51,12 @@ namespace FestivalAppDesktop.ViewModel
         public ObservableCollection<ContactPersonType> ContactPersonTypes
         {
             get { return _contactPersonTypes; }
-            set 
-            { 
-                _contactPersonTypes = value; 
+            set
+            {
+                _contactPersonTypes = value;
                 OnPropertyChanged("ContactPersonTypes");
             }
         }
-        
 
         private ContactPerson _selectedContactPerson;
         public ContactPerson SelectedContactPerson
@@ -235,6 +234,11 @@ namespace FestivalAppDesktop.ViewModel
             }
         }
 
+        public ICommand SearchCommand
+        {
+            get { return new RelayCommand(UpdateObservableCollections); }
+        }
+
         private void AddNewContactPerson()
         {
             Teller = 1;
@@ -371,7 +375,7 @@ namespace FestivalAppDesktop.ViewModel
 
             foreach(int i in iTypes)
             {
-                foreach(ContactPersonType type in ContactPersonTypes)
+                foreach(ContactPersonType type in ContactPersonTypes )
                 {
                     if(type.id.Equals(i))
                     {
@@ -404,6 +408,12 @@ namespace FestivalAppDesktop.ViewModel
             }
 
             ContactPersonen = persons;
+        }
+
+        private void UpdateObservableCollections()
+        {
+            ContactPersonen = DALContactPerson.GetContactPersons();
+            ContactPersonTypes = DALContactPersonTypes.GetContactPersonTypes();
         }
     }
 }

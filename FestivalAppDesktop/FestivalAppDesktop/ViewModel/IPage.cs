@@ -13,5 +13,6 @@ namespace FestivalAppDesktop.ViewModel
     {
         //één property insteken. Elke klasse moet deze property gaan uitwerken.
         string Name { get; }
+        
     }
 }

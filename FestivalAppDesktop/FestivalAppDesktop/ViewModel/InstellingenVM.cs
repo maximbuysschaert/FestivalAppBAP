@@ -16,10 +16,20 @@ namespace FestivalAppDesktop.ViewModel
         public InstellingenVM()
         {
             ContactPersonTypes = DALContactPersonTypes.GetContactPersonTypes();
+            ContactPersons = DALContactPerson.GetContactPersons();
+
             VisibilityContactPersonTypeListbox = "visible";
             VisibilityContactPersonTypeTextbox = "hidden";
+
             ButtonContentAddContactPersonType = "Voeg toe";
+            ButtonContentEditContactPersonType = "Wijzig";
+
+            EnableDisableContactPersonTypeDeleteButton = false;
+            EnableDisableContactPersonTypeEditButton = false;
+            EnableDisableContactPersonTypeAddButton = true;
         }
+
+        private ObservableCollection<ContactPerson> ContactPersons = new ObservableCollection<ContactPerson>();
 
         private ObservableCollection<ContactPersonType> _contactPersonTypes;
         public ObservableCollection<ContactPersonType> ContactPersonTypes
@@ -39,6 +49,12 @@ namespace FestivalAppDesktop.ViewModel
             set 
             { 
                 _selectedType = value;
+                if(SelectedType != null)
+                {
+                    ChangeContactPersonTypeDeleteButton();
+                    EnableDisableContactPersonTypeEditButton = true;
+                    Console.WriteLine("test");
+                }               
                 OnPropertyChanged("SelectedType");
             }
         }
@@ -65,6 +81,40 @@ namespace FestivalAppDesktop.ViewModel
             }
         }
 
+        private Boolean _enableDisableContactPersonTypeDeleteButton;
+        public Boolean EnableDisableContactPersonTypeDeleteButton
+        {
+            get { return _enableDisableContactPersonTypeDeleteButton; }
+            set 
+            { 
+                _enableDisableContactPersonTypeDeleteButton = value;
+                OnPropertyChanged("EnableDisableContactPersonTypeDeleteButton");
+            }
+        }
+
+        private Boolean _enablaDisableContactPersonTypeAddButton;
+        public Boolean EnableDisableContactPersonTypeAddButton
+        {
+            get { return _enablaDisableContactPersonTypeAddButton; }
+            set 
+            { 
+                _enablaDisableContactPersonTypeAddButton = value;
+                OnPropertyChanged("EnableDisableContactPersonTypeAddButton");
+            }
+        }
+
+        private Boolean _enableDisableContactPersonTypeEditButton;
+        public Boolean EnableDisableContactPersonTypeEditButton
+        {
+            get { return _enableDisableContactPersonTypeEditButton; }
+            set 
+            { 
+                _enableDisableContactPersonTypeEditButton = value;
+                OnPropertyChanged("EnableDisableContactPersonTypeEditButton");
+            }
+        }
+        
+
         private string _buttonContentAddContactPersonType;
         public string ButtonContentAddContactPersonType
         {
@@ -73,6 +123,17 @@ namespace FestivalAppDesktop.ViewModel
             { 
                 _buttonContentAddContactPersonType = value;
                 OnPropertyChanged("ButtonContentAddContactPersonType");
+            }
+        }
+
+        private string _buttonContentEditContactPersonType;
+        public string ButtonContentEditContactPersonType
+        {
+            get { return _buttonContentEditContactPersonType; }
+            set
+            {
+                _buttonContentEditContactPersonType = value;
+                OnPropertyChanged("ButtonContentEditContactPersonType");
             }
         }
 
@@ -100,16 +161,34 @@ namespace FestivalAppDesktop.ViewModel
             }
         }
 
+        public ICommand EditContactPersonTypeCommand
+        {
+            get
+            {
+                return new RelayCommand(EditContactPersonType);
+            }
+        }
+
+        public ICommand DeleteContactPersonTypeCommand
+        {
+            get
+            {
+                return new RelayCommand(DeleteContactPersonType);
+            }
+        }
+
         private void AddContactPersonType()
         {
             if(ButtonContentAddContactPersonType == "Voeg toe")
             {
+                ContactPersonType nieuw = new ContactPersonType();
+                SelectedType = nieuw;
+
                 ButtonContentAddContactPersonType = "Opslaan";
                 VisibilityContactPersonTypeListbox = "hidden";
                 VisibilityContactPersonTypeTextbox = "visible";
-
-                ContactPersonType nieuw = new ContactPersonType();
-                SelectedType = nieuw;
+                EnableDisableContactPersonTypeDeleteButton = false;
+                EnableDisableContactPersonTypeEditButton = false;
             }
             else
             {
@@ -119,6 +198,58 @@ namespace FestivalAppDesktop.ViewModel
                 ButtonContentAddContactPersonType = "Voeg toe";
                 VisibilityContactPersonTypeListbox = "visible";
                 VisibilityContactPersonTypeTextbox = "hidden";
+            }
+        }
+
+        private void EditContactPersonType()
+        {
+            if(ButtonContentEditContactPersonType == "Wijzig")
+            {
+                ButtonContentEditContactPersonType = "Opslaan";
+                VisibilityContactPersonTypeListbox = "hidden";
+                VisibilityContactPersonTypeTextbox = "visible";
+
+                EnableDisableContactPersonTypeAddButton = false;
+                EnableDisableContactPersonTypeDeleteButton = false;
+            }
+            else
+            {
+                DALContactPersonTypes.UpdataContactPerson(SelectedType);
+                ContactPersonTypes = DALContactPersonTypes.GetContactPersonTypes();
+                ContactPersons = DALContactPerson.GetContactPersons();
+
+                ButtonContentEditContactPersonType = "Wijzig";
+                VisibilityContactPersonTypeListbox = "visible";
+                VisibilityContactPersonTypeTextbox = "hidden";
+
+                EnableDisableContactPersonTypeAddButton = true;
+                EnableDisableContactPersonTypeEditButton = false;
+            }
+        }
+
+        private void DeleteContactPersonType()
+        {
+            DALContactPersonTypes.DeleteContactPerson(SelectedType);
+            ContactPersonTypes = DALContactPersonTypes.GetContactPersonTypes();
+
+            EnableDisableContactPersonTypeDeleteButton = false;
+            EnableDisableContactPersonTypeEditButton = false;
+        }
+
+        private void ChangeContactPersonTypeDeleteButton()
+        {
+            foreach(ContactPerson person in ContactPersons)
+            {
+                if(person.ContactPersonType.id.Equals(SelectedType.id))
+                {
+                    EnableDisableContactPersonTypeDeleteButton = false;
+                    return;
+                }
+                else
+                {
+                    EnableDisableContactPersonTypeDeleteButton = true;
+                    Console.WriteLine("Geen contactpersonen gevonden");
+                }
             }
         }
     }

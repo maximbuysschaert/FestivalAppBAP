@@ -41,9 +41,9 @@
         <Button Content="Delete" Margin="8" Grid.Row="5" Grid.Column="3"/>
         <Button Content="Edit" Grid.Column="4" Margin="8" Grid.Row="5"/>
         <Button Content="Add" Grid.Column="5" Margin="8" Grid.Row="5"/>
-        <Button Content="Delete" Margin="8" Grid.Row="5" Grid.Column="6"/>
-        <Button Content="Edit" Grid.Column="7" Margin="8" Grid.Row="5"/>
-        <Button Content="{Binding ButtonContentAddContactPersonType}" Grid.Column="8" Margin="8" Grid.Row="5" Command="{Binding AddContactPersonTypeCommand}"/>
+        <Button Content="Delete" Margin="8" Grid.Row="5" Grid.Column="6" IsEnabled="{Binding EnableDisableContactPersonTypeDeleteButton}" Command="{Binding DeleteContactPersonTypeCommand}"/>
+        <Button Content="{Binding ButtonContentEditContactPersonType}" IsEnabled="{Binding EnableDisableContactPersonTypeEditButton}" Grid.Column="7" Margin="8" Grid.Row="5" Command="{Binding EditContactPersonTypeCommand}"/>
+        <Button Content="{Binding ButtonContentAddContactPersonType}" IsEnabled="{Binding EnableDisableContactPersonTypeAddButton}" Grid.Column="8" Margin="8" Grid.Row="5" Command="{Binding AddContactPersonTypeCommand}"/>
         <TextBox Margin="8" Grid.Row="4" TextWrapping="Wrap" Text="" Grid.ColumnSpan="3"/>
         <TextBox Grid.Column="3" Margin="8" Grid.Row="4" TextWrapping="Wrap" Text="" Grid.ColumnSpan="3"/>
         <TextBox Grid.Column="6" Margin="8" Grid.Row="4" TextWrapping="Wrap" Text="{Binding SelectedType.name}" Grid.ColumnSpan="3" Visibility="{Binding VisibilityContactPersonTypeTextbox}"/>
