@@ -32,19 +32,19 @@
         <TextBlock Grid.ColumnSpan="2" Margin="8,0,8,8" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Bottom" Grid.RowSpan="2"><Run Language="nl-be" Text="Stages:"/></TextBlock>
         <TextBlock Grid.ColumnSpan="2" Grid.Column="3" Margin="8,0,8,8" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Bottom" Grid.RowSpan="2"><Run Language="nl-be" Text="Genres:"/></TextBlock>
         <TextBlock Grid.ColumnSpan="2" Grid.Column="6" Margin="8,0,8,8" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Bottom" Grid.RowSpan="2"><Run Language="nl-be" Text="Contacttypes:"/></TextBlock>
-        <ListBox Grid.ColumnSpan="3" Margin="8,8,8,8" Grid.Row="3" Grid.RowSpan="2" Visibility="Hidden"/>
+        <ListBox Grid.ColumnSpan="3" Margin="8,8,8,8" Grid.Row="3" Grid.RowSpan="2" ItemsSource="{Binding Stages}" DisplayMemberPath="name" SelectedItem="{Binding SelectedStage}" Visibility="{Binding VisibilityStageListbox}"/>
         <ListBox Grid.ColumnSpan="3" Grid.Column="3" Margin="8,8,8,8" Grid.Row="3" Grid.RowSpan="2" ItemsSource="{Binding Genres}" DisplayMemberPath="name" SelectedItem="{Binding SelectedGenre}" Visibility="{Binding VisibilityGenreListbox}"/>
         <ListBox Grid.ColumnSpan="3" Grid.Column="6" Margin="8" Grid.Row="3" ItemsSource="{Binding ContactPersonTypes}" DisplayMemberPath="name" SelectedItem="{Binding SelectedType}" Grid.RowSpan="2" Visibility="{Binding VisibilityContactPersonTypeListbox}"/>
-        <Button Content="Delete" Margin="8" Grid.Row="5"/>
-        <Button Content="Edit" Grid.Column="1" Margin="8" Grid.Row="5"/>
-        <Button Content="Add" Grid.Column="2" Margin="8" Grid.Row="5"/>
+        <Button Content="Delete" Margin="8" Grid.Row="5" IsEnabled="{Binding EnableDisableStageDeleteButton}" Command="{Binding DeleteStageCommand}"/>
+        <Button Grid.Column="1" Margin="8" Grid.Row="5" Content="{Binding ButtonContentEditStage}" IsEnabled="{Binding EnableDisableStageEditButton}" Command="{Binding EditStageCommand}"/>
+        <Button Grid.Column="2" Margin="8" Grid.Row="5" Content="{Binding ButtonContentAddStage}" IsEnabled="{Binding EnableDisableStageAddButton}" Command="{Binding AddStageCommand}"/>
         <Button Content="Delete" Margin="8" Grid.Row="5" Grid.Column="3" IsEnabled="{Binding EnableDisableGenreDeleteButton}" Command="{Binding DeleteGenreCommand}"/>
         <Button Grid.Column="4" Margin="8" Grid.Row="5" Content="{Binding ButtonContentEditGenre}" IsEnabled="{Binding EnableDisableGenreEditButton}" Command="{Binding EditGenreCommand}"/>
         <Button Grid.Column="5" Margin="8" Grid.Row="5" Content="{Binding ButtonContentAddGenre}" IsEnabled="{Binding EnableDisableGenreAddButton}" Command="{Binding AddGenreCommand}"/>
         <Button Content="Delete" Margin="8" Grid.Row="5" Grid.Column="6" IsEnabled="{Binding EnableDisableContactPersonTypeDeleteButton}" Command="{Binding DeleteContactPersonTypeCommand}"/>
         <Button Content="{Binding ButtonContentEditContactPersonType}" IsEnabled="{Binding EnableDisableContactPersonTypeEditButton}" Grid.Column="7" Margin="8" Grid.Row="5" Command="{Binding EditContactPersonTypeCommand}"/>
         <Button Content="{Binding ButtonContentAddContactPersonType}" IsEnabled="{Binding EnableDisableContactPersonTypeAddButton}" Grid.Column="8" Margin="8" Grid.Row="5" Command="{Binding AddContactPersonTypeCommand}"/>
-        <TextBox Margin="8" Grid.Row="4" TextWrapping="Wrap" Text="" Grid.ColumnSpan="3"/>
+        <TextBox Margin="8" Grid.Row="4" TextWrapping="Wrap" Grid.ColumnSpan="3" Text="{Binding SelectedStage.name}" Visibility="{Binding VisibilityStageTextbox}"/>
         <TextBox Grid.Column="3" Margin="8" Grid.Row="4" TextWrapping="Wrap" Grid.ColumnSpan="3" Text="{Binding SelectedGenre.name}" Visibility="{Binding VisibilityGenreTextbox}"/>
         <TextBox Grid.Column="6" Margin="8" Grid.Row="4" TextWrapping="Wrap" Grid.ColumnSpan="3" Text="{Binding SelectedType.name}" Visibility="{Binding VisibilityContactPersonTypeTextbox}"/>
     </Grid>

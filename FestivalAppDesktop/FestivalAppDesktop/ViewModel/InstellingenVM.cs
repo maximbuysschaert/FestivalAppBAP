@@ -31,6 +31,8 @@ namespace FestivalAppDesktop.ViewModel
             #endregion
             #region "Genres"
             Genres = DALGenres.GetGenres();
+            //nog te implementeren!
+            //ContactPersons = DALContactPerson.GetContactPersons();
 
             VisibilityGenreListbox = "visible";
             VisibilityGenreTextbox = "hidden";
@@ -41,6 +43,21 @@ namespace FestivalAppDesktop.ViewModel
             EnableDisableGenreDeleteButton = false;
             EnableDisableGenreEditButton = false;
             EnableDisableGenreAddButton = true;
+            #endregion
+            #region "Stages"
+            Stages = DALStages.GetStages();
+            //nog te implementeren!
+            //ContactPersons = DALContactPerson.GetContactPersons();
+
+            VisibilityStageListbox = "visible";
+            VisibilityStageTextbox = "hidden";
+
+            ButtonContentAddStage = "Voeg toe";
+            ButtonContentEditStage = "Wijzig";
+
+            EnableDisableStageDeleteButton = false;
+            EnableDisableStageEditButton = false;
+            EnableDisableStageAddButton = true;
             #endregion
         }
 
@@ -163,11 +180,6 @@ namespace FestivalAppDesktop.ViewModel
                 OnPropertyChanged("ContentTextboxContactPersonType");
             }
         }     
-        
-        public string Name
-        {
-            get { return "Instellingen"; }
-        }
 
         public ICommand AddContactPersonTypeCommand
         {
@@ -493,5 +505,232 @@ namespace FestivalAppDesktop.ViewModel
         //    }
         //}
         #endregion 
+        #region "Stages"
+        //private ObservableCollection<ContactPerson> Bands = new ObservableCollection<ContactPerson>();
+        private ObservableCollection<Stage> _stages;
+        public ObservableCollection<Stage> Stages
+        {
+            get { return _stages; }
+            set
+            {
+                _stages = value;
+                OnPropertyChanged("Stages");
+            }
+        }
+
+        private Stage _selectedStage;
+        public Stage SelectedStage
+        {
+            get { return _selectedStage; }
+            set
+            {
+                _selectedStage = value;
+                if (SelectedStage != null)
+                {
+                    //nog te implementeren! 
+                    //ChangeGenreDeleteButton();
+                    EnableDisableStageEditButton = true;
+                    //Console.WriteLine("test");
+                }
+                OnPropertyChanged("SelectedStage");
+            }
+        }
+
+        private string _visibilityStageTextbox;
+        public string VisibilityStageTextbox
+        {
+            get { return _visibilityStageTextbox; }
+            set
+            {
+                _visibilityStageTextbox = value;
+                OnPropertyChanged("VisibilityStageTextbox");
+            }
+        }
+
+        private string _visibilityStageListbox;
+        public string VisibilityStageListbox
+        {
+            get { return _visibilityStageListbox; }
+            set
+            {
+                _visibilityStageListbox = value;
+                OnPropertyChanged("VisibilityStageListbox");
+            }
+        }
+
+        private Boolean _enableDisableStageDeleteButton;
+        public Boolean EnableDisableStageDeleteButton
+        {
+            get { return _enableDisableStageDeleteButton; }
+            set
+            {
+                _enableDisableStageDeleteButton = value;
+                OnPropertyChanged("EnableDisableStageDeleteButton");
+            }
+        }
+
+        private Boolean _enablaDisableStageAddButton;
+        public Boolean EnableDisableStageAddButton
+        {
+            get { return _enablaDisableStageAddButton; }
+            set
+            {
+                _enablaDisableStageAddButton = value;
+                OnPropertyChanged("EnableDisableStageAddButton");
+            }
+        }
+
+        private Boolean _enableDisableStageEditButton;
+        public Boolean EnableDisableStageEditButton
+        {
+            get { return _enableDisableStageEditButton; }
+            set
+            {
+                _enableDisableStageEditButton = value;
+                OnPropertyChanged("EnableDisableStageEditButton");
+            }
+        }
+
+
+        private string _buttonContentAddStage;
+        public string ButtonContentAddStage
+        {
+            get { return _buttonContentAddStage; }
+            set
+            {
+                _buttonContentAddStage = value;
+                OnPropertyChanged("ButtonContentAddStage");
+            }
+        }
+
+        private string _buttonContentEditStage;
+        public string ButtonContentEditStage
+        {
+            get { return _buttonContentEditStage; }
+            set
+            {
+                _buttonContentEditStage = value;
+                OnPropertyChanged("ButtonContentEditStage");
+            }
+        }
+
+        private string _contentTextboxStage;
+        public string ContentTextboxStage
+        {
+            get { return _contentTextboxStage; }
+            set
+            {
+                _contentTextboxStage = value;
+                OnPropertyChanged("ContentTextboxStage");
+            }
+        }
+
+        public ICommand AddStageCommand
+        {
+            get
+            {
+                return new RelayCommand(AddStage);
+            }
+        }
+
+        public ICommand EditStageCommand
+        {
+            get
+            {
+                return new RelayCommand(EditStage);
+            }
+        }
+
+        public ICommand DeleteStageCommand
+        {
+            get
+            {
+                return new RelayCommand(DeleteStage);
+            }
+        }
+
+        private void AddStage()
+        {
+            if (ButtonContentAddStage == "Voeg toe")
+            {
+                Stage nieuw = new Stage();
+                SelectedStage = nieuw;
+
+                ButtonContentAddStage = "Opslaan";
+                VisibilityStageListbox = "hidden";
+                VisibilityStageTextbox = "visible";
+                EnableDisableStageDeleteButton = false;
+                EnableDisableStageEditButton = false;
+            }
+            else
+            {
+                DALStages.InsertStage(SelectedStage);
+                Stages = DALStages.GetStages();
+
+                ButtonContentAddStage = "Voeg toe";
+                VisibilityStageListbox = "visible";
+                VisibilityStageTextbox = "hidden";
+            }
+        }
+
+        private void EditStage()
+        {
+            if (ButtonContentEditStage == "Wijzig")
+            {
+                ButtonContentEditStage = "Opslaan";
+                VisibilityStageListbox = "hidden";
+                VisibilityStageTextbox = "visible";
+
+                EnableDisableStageAddButton = false;
+                EnableDisableStageDeleteButton = false;
+            }
+            else
+            {
+                DALStages.UpdataStage(SelectedStage);
+                Stages = DALStages.GetStages();
+                //Nog implementeren
+                //ContactPersons = DALContactPerson.GetContactPersons();
+                //Bands = DALBans.GetBands();
+
+                ButtonContentEditStage = "Wijzig";
+                VisibilityStageListbox = "visible";
+                VisibilityStageTextbox = "hidden";
+
+                EnableDisableStageAddButton = true;
+                EnableDisableStageEditButton = false;
+            }
+        }
+
+        private void DeleteStage()
+        {
+            DALStages.DeleteStage(SelectedStage);
+            Stages = DALStages.GetStages();
+
+            EnableDisableStageDeleteButton = false;
+            EnableDisableStageEditButton = false;
+        }
+
+        //nog te implementeren! 
+        //private void ChangeGenreDeleteButton()
+        //{
+        //    foreach (ContactPerson person in ContactPersons)
+        //    {
+        //        if (person.ContactPersonType.id.Equals(SelectedType.id))
+        //        {
+        //            EnableDisableContactPersonTypeDeleteButton = false;
+        //            return;
+        //        }
+        //        else
+        //        {
+        //            EnableDisableContactPersonTypeDeleteButton = true;
+        //            Console.WriteLine("Geen contactpersonen gevonden");
+        //        }
+        //    }
+        //}
+        #endregion 
+        public string Name
+        {
+            get { return "Instellingen"; }
+        }
     }
 }
